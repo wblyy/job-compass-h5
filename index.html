@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="format-detection" content="telephone=no,email=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="theme-color" content="#F4F6F9" />
+  <title>岗位罗盘 · 先判断值不值得投，再改简历去面试</title>
+  <meta name="description" content="承接 BOSS 直聘求职需求：筛掉僵尸与挂羊头岗，生成零编造方向版简历，备好首句招呼语与缺口追问预案。" />
+  <meta property="og:title" content="岗位罗盘 · 手机端求职工作台" />
+  <meta property="og:description" content="先筛掉不值得聊的岗，再把方向版简历和第一句话备好。" />
+  <meta property="og:url" content="https://wblyy.github.io/job-compass-h5/" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23121926'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='17' font-family='sans-serif' font-weight='700' fill='%23ffffff'%3E%E5%8C%97%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="shell">
+  <!-- 桌面宽屏预览时的旁注说明（真机手机端自动隐藏） -->
+  <aside class="desk-aside" aria-hidden="true">
+    <div class="da-tag">MOBILE H5 PROTOTYPE · 390×844</div>
+    <h2>岗位罗盘 · 手机端求职工作台</h2>
+    <p>专为刚从 BOSS 直聘切过来的求职者设计：单手拇指 4 步走完「筛坑判岗 → 方向版简历 → 首句与缺口预案 → 微信领稿与模拟追问」。</p>
+    <ul class="da-rules">
+      <li><b>95 分封顶</b><span>预留 5 分给面试现场，五条压制规则按序拦截挂羊头与硬伤岗</span></li>
+      <li><b>0 处事实编造</b><span>锁死原稿公司、时间与量化数字，未写清项须本人确认</span></li>
+      <li><b>0 次代按发送</b><span>一键复制首句回 BOSS 粘贴，发送键始终在求职者自己手里</span></li>
+    </ul>
+  </aside>
+
+  <div class="app" id="app">
+    <!-- 顶栏：品牌 + 发送恒零护栏 + 服务号入口 -->
+    <header class="topbar">
+      <div class="brand" id="brandHome" role="button" tabindex="0" aria-label="返回起始页">
+        <span class="brand-mark">北</span>
+        <div class="brand-txt">
+          <b>岗位罗盘</b>
+          <span>判断 · 改稿 · 预案</span>
+        </div>
+      </div>
+      <div class="top-status">
+        <button class="pub-pill" id="pubTopBtn" type="button" hidden>
+          服务号<i id="pubBadge">1</i>
+        </button>
+        <div class="zero-guard" title="所有沟通均由你在 BOSS 直聘亲自发送">
+          <span class="zg-dot"></span>代按发送 <b id="sendCount">0</b>
+        </div>
+      </div>
+    </header>
+
+    <!-- 四步导航轨（进入流程后可随时回看已解锁步骤） -->
+    <nav class="step-rail" id="stepRail" aria-label="求职准备步骤">
+      <button class="sr-item" type="button" data-step-nav="1" disabled>
+        <i>1</i><span>筛岗判断</span>
+      </button>
+      <button class="sr-item" type="button" data-step-nav="2" disabled>
+        <i>2</i><span>方向简历</span>
+      </button>
+      <button class="sr-item" type="button" data-step-nav="3" disabled>
+        <i>3</i><span>首句预案</span>
+      </button>
+      <button class="sr-item" type="button" data-step-nav="4" disabled>
+        <i>4</i><span>带走去投</span>
+      </button>
+    </nav>
+
+    <main class="stage" id="stage">
+
+      <!-- ===== Step 0: 首屏冷启动（承接刚从 BOSS 直聘过来的那一刻，严控一屏内可见） ===== -->
+      <section class="screen" data-screen="entry">
+        <div class="eyebrow">刚刷完 BOSS 直聘？别拿通用简历海投</div>
+        <h1 class="hero-h1" id="entryTitle">先筛掉不值得聊的岗，<br>再把简历和第一句话备好。</h1>
+        <p class="hero-lead">主动沟通回复率不到 5%，症结在僵尸岗混杂、招呼语太像模板。你只管拍板，依据我来备齐。</p>
+
+        <!-- 当前已载入的求职上下文卡片 -->
+        <div class="dossier-card">
+          <div class="dc-head">
+            <span class="dc-badge">已就绪样本</span>
+            <span class="dc-privacy">本地解析 · 原件不出手机</span>
+          </div>
+          <div class="dc-row">
+            <span class="dc-k">原稿履历</span>
+            <div class="dc-v">
+              <b>陈默 · B端产品经理（4年）</b>
+              <small>上海 · 底线 18k · 31 节点工单 / 7 部门权限重构</small>
+            </div>
+          </div>
+          <div class="dc-row">
+            <span class="dc-k">待判岗位</span>
+            <div class="dc-v">
+              <b id="poolSummaryText">刚从 BOSS 收藏的 12 个在招岗</b>
+              <small id="poolSubText">含同城、跨城与跨行业机会，待跑五条压制规则</small>
+              <div class="custom-added" id="customAddedBadge" hidden></div>
+            </div>
+          </div>
+          <div class="dc-actions">
+            <button class="paste-trigger" id="openPasteBtn" type="button">
+              + 粘贴刚在 BOSS 看中的 JD 现场算分
+            </button>
+          </div>
+        </div>
+
+        <!-- 0453club 三步价值链微缩说明 -->
+        <div class="chain-strip">
+          <div class="cs-node">
+            <b>01 判值不值</b>
+            <span>95分封顶筛除坑岗</span>
+          </div>
+          <div class="cs-arrow">→</div>
+          <div class="cs-node">
+            <b>02 改方向稿</b>
+            <span>锁死事实提炼主线</span>
+          </div>
+          <div class="cs-arrow">→</div>
+          <div class="cs-node">
+            <b>03 备好再投</b>
+            <span>定制首句与追问卡</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Step 1: 筛岗判断（五条压制规则分档 + 决断1：定今日精力边界） ===== -->
+      <section class="screen" data-screen="step1" hidden>
+        <div class="scan-banner" id="scanBanner">
+          <div class="sb-top">
+            <b id="scanTitle">已扫完 <span id="totalScannedNum">12</span> 个在招岗 · 拦下 <span id="suppressedCountNum">7</span> 个坑岗</b>
+            <span class="sb-cap">纸面 95 分封顶</span>
+          </div>
+          <div class="sb-meter">
+            <i class="m-ok" style="width:25%"></i>
+            <i class="m-stretch" style="width:17%"></i>
+            <i class="m-cut" style="width:58%"></i>
+          </div>
+          <p class="sb-sub">分数只决定先看哪个，不代表录用概率。先砍掉电销挂羊头与硬门槛死局。</p>
+        </div>
+
+        <!-- 关键决断 1：今日火力范围 -->
+        <div class="decision-box">
+          <div class="db-head">
+            <span class="db-tag">关键拍板 1/3</span>
+            <b>今天集中精力攻哪几个？</b>
+          </div>
+          <div class="seg-group" id="scopeSeg">
+            <button class="seg active" type="button" data-scope="top3">主攻高价值 3 岗（推荐）</button>
+            <button class="seg" type="button" data-scope="shanghai">只看上海同城</button>
+            <button class="seg" type="button" data-scope="all">全部可争取岗</button>
+          </div>
+        </div>
+
+        <!-- 可争取岗位卡片流 -->
+        <div class="tier-list" id="tierList"></div>
+
+        <!-- 被压制拦截的 7 个岗位（透明可查，绝不黑箱） -->
+        <div class="suppressed-wrap">
+          <button class="sup-toggle" id="toggleSuppressed" type="button" aria-expanded="false">
+            <span>已被压制规则拦下的 <b id="supBtnCount">7</b> 个岗（挂羊头 / 硬伤）</span>
+            <i class="sup-chevron" id="supChevron">展开核查 ›</i>
+          </button>
+          <div class="sup-list" id="suppressedList" hidden></div>
+        </div>
+      </section>
+
+      <!-- ===== Step 2: 方向版简历（决断2：选主打主线 + 原稿事实锁 + 待补事实确认） ===== -->
+      <section class="screen" data-screen="step2" hidden>
+        <div class="sec-intro">
+          <div class="db-head">
+            <span class="db-tag">关键拍板 2/3</span>
+            <b>一份履历，往哪个方向调第一屏？</b>
+          </div>
+          <p>按 JD 权重最高的那条职责选主线，而不是堆砌形容词。公司、时间与数字全程锁死。</p>
+          <div class="track-tabs">
+            <button class="track-btn active" type="button" data-track="flow">
+              <b>0→1 流程线上化</b>
+              <span>适配恒犀 · 青藤</span>
+            </button>
+            <button class="track-btn" type="button" data-track="perm">
+              <b>跨部门权限与中台合并</b>
+              <span>适配蝉鸣 · 北辰</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 原稿事实锁印记 -->
+        <div class="fact-lock" id="factLockBar">
+          <div class="fl-top">
+            <span class="fl-shield">✓ 完整性校验通过 · 0 编造</span>
+            <button class="fl-preview-link" id="inlineResumeBtn" type="button">查看完整新稿 ›</button>
+          </div>
+          <div class="fl-items" id="factLockItems"></div>
+        </div>
+
+        <!-- 改前 vs 改后 行级对照卡 -->
+        <div class="diff-card">
+          <div class="diff-before">
+            <span class="df-tag old">原稿写法 · 痛点被埋</span>
+            <ul id="beforeLines"></ul>
+          </div>
+          <div class="diff-after">
+            <div class="df-head">
+              <span class="df-tag new">方向版新稿 · 首屏直击 JD</span>
+              <span class="df-fit" id="afterFitTag"></span>
+            </div>
+            <h3 class="af-headline" id="afterHeadline"></h3>
+            <ul id="afterLines"></ul>
+          </div>
+        </div>
+
+        <!-- 原稿未写清的 1 项待补事实（诚实增量，绝不脑补） -->
+        <div class="pending-fact-card" id="pendingFactCard">
+          <div class="pf-title">
+            <span class="pf-dot">待本人确认</span>
+            <b id="pfQuestion"></b>
+          </div>
+          <p class="pf-hint" id="pfHint"></p>
+          <div class="pf-opts" id="pfOpts"></div>
+          <div class="pf-feedback" id="pfFeedback" hidden></div>
+        </div>
+      </section>
+
+      <!-- ===== Step 3: BOSS 首句招呼语 + P8 缺口对冲与追问预案（决断3：定开口分寸） ===== -->
+      <section class="screen" data-screen="step3" hidden>
+        <!-- 目标岗位切换胶囊 -->
+        <div class="job-switcher" id="prepJobTabs"></div>
+
+        <!-- BOSS 首句工作卡 -->
+        <div class="outreach-card">
+          <div class="oc-top">
+            <div>
+              <span class="db-tag">关键拍板 3/3 · 开口分寸</span>
+              <h3 id="prepJobHeading">恒犀科技 · B端产品经理</h3>
+            </div>
+            <span class="score-pill" id="prepScorePill">88 / 95</span>
+          </div>
+
+          <div class="tone-bar">
+            <button class="tone-btn active" type="button" data-tone="direct">直接点破业务痛点</button>
+            <button class="tone-btn" type="button" data-tone="gentle">稳妥先问团队边界</button>
+          </div>
+
+          <div class="msg-box">
+            <p id="outreachText"></p>
+            <div class="msg-why" id="outreachWhy"></div>
+          </div>
+
+          <div class="oc-actions">
+            <button class="copy-btn" id="copyOutreachBtn" type="button">复制首句 · 去 BOSS 粘贴发送</button>
+          </div>
+        </div>
+
+        <!-- P8 四段式硬缺口诚实应对预案 -->
+        <div class="gap-card" id="gapPrepCard">
+          <div class="gc-head">
+            <b>硬缺口 / 边界诚实应答预案（四段式）</b>
+            <span>先认下，再搭桥，不硬装</span>
+          </div>
+          <div class="gap-steps" id="gapStepsList"></div>
+        </div>
+
+        <!-- HR 秒回后的必考追问预测 -->
+        <div class="followup-card">
+          <div class="fc-head">
+            <b>HR 一旦回复，最可能追问这两句</b>
+            <span>点开看参考答法</span>
+          </div>
+          <div class="fq-list" id="followUpList"></div>
+        </div>
+      </section>
+
+      <!-- ===== Step 4: 今日求职作战台账 & 高动机微信服务号承接 ===== -->
+      <section class="screen" data-screen="step4" hidden>
+        <div class="ledger-hero">
+          <span class="eyebrow ok">依据已备齐 · 发送键归你</span>
+          <h2>挑一句复制去 BOSS 开口，<br>把改好的简历带走。</h2>
+        </div>
+
+        <!-- 四格诚实账本 -->
+        <div class="ledger-grid">
+          <div class="lg-cell">
+            <span>已筛在招岗</span>
+            <b id="lgTotal">12</b>
+          </div>
+          <div class="lg-cell">
+            <span>拦下坑岗</span>
+            <b id="lgCut">7</b>
+          </div>
+          <div class="lg-cell">
+            <span>备妥弹药包</span>
+            <b id="lgReady">3</b>
+          </div>
+          <div class="lg-cell guard">
+            <span>我替你按的发送</span>
+            <b id="lgZero">0</b>
+          </div>
+        </div>
+
+        <!-- 今日待投递清单（可复制首句 + 打卡记录「已沟通」） -->
+        <div class="action-checklist">
+          <div class="ac-head">
+            <b>今日出击清单</b>
+            <span>在 BOSS 发完可点右侧记账</span>
+          </div>
+          <div id="finalJobRows"></div>
+        </div>
+
+        <!-- 高价值服务号承接入口卡片（先给完价值，再用真刚需自然吸引） -->
+        <div class="wechat-handoff-card">
+          <div class="wh-info">
+            <span class="wh-tag">微信服务号 · 异步伴跑</span>
+            <h3>领走方向版简历 PDF + 练一轮 HR 真人追问</h3>
+            <p>把刚核验通过的新简历和 3 岗追问卡存进微信，随时语音/打字模拟面试官追问。</p>
+          </div>
+          <div class="wh-btns">
+            <button class="wh-main-btn" id="openQrBtn" type="button">发送到微信服务号领取</button>
+            <button class="wh-sub-btn" id="directWebPreviewBtn" type="button">不关注，直接在网页看简历与模拟追问</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="bottom-spacer"></div>
+    </main>
+
+    <!-- 底部拇指黄金热区：每屏唯一主动作按钮 -->
+    <footer class="bottom-bar" id="bottomBar">
+      <button class="primary-cta" id="primaryBtn" type="button">
+        <span class="pc-main" id="primaryMain">开始筛岗判断（12 个岗）</span>
+        <span class="pc-sub" id="primarySub">免费分析 · 95 分封顶只排先后 · 不碰你求职账号</span>
+      </button>
+    </footer>
+  </div>
+</div>
+
+<!-- ===== 抽屉 1: 粘贴 BOSS 直聘 JD 实时算分 ===== -->
+<div class="sheet-wrap" id="pasteSheet" hidden>
+  <div class="sheet-mask" data-close-paste></div>
+  <div class="sheet-panel">
+    <div class="sheet-grab"></div>
+    <div class="sheet-head">
+      <b>粘贴刚在 BOSS 看中的岗位 JD</b>
+      <button class="sheet-close" type="button" data-close-paste>关闭</button>
+    </div>
+    <p class="sheet-desc">按 95 分封顶与五条压制规则现场出分。也可点下方示例秒测识别效果：</p>
+    <div class="sample-pills">
+      <button class="sp-btn" type="button" data-fill-sample="good">填入：优质 B 端产品 JD</button>
+      <button class="sp-btn warn" type="button" data-fill-sample="trap">填入：伪装成产品的电销坑岗</button>
+    </div>
+    <textarea class="paste-area" id="pasteInput" rows="4" placeholder="粘贴岗位名称、薪资、核心职责与任职要求…"></textarea>
+    <button class="sheet-submit" id="runPasteBtn" type="button">立即按压制规则算分并加入清单</button>
+  </div>
+</div>
+
+<!-- ===== 抽屉 2: 极简高动机公众号二维码（严格 <=2 段正文，零废话） ===== -->
+<div class="sheet-wrap" id="qrSheet" hidden>
+  <div class="sheet-mask" data-close-qr></div>
+  <div class="sheet-panel qr-panel">
+    <div class="sheet-grab"></div>
+    <div class="qr-copy">
+      <h3>把方向版简历 PDF 和 3 岗追问卡发到微信</h3>
+      <p>关注后立领核验通过的新简历，还能直接练一轮 HR 缺口追问、明早盯 >=80 分新岗。</p>
+    </div>
+    <div class="qr-box">
+      <img id="qrImg" src="qr.png" alt="岗位罗盘手机端二维码" width="420" height="420" />
+    </div>
+    <div class="qr-actions">
+      <button class="qr-follow-btn" id="qrFollowBtn" type="button">我已关注，去公众号领简历 / 练追问</button>
+      <button class="qr-skip-btn" id="qrSkipBtn" type="button">先不关注，直接在网页看简历与练习</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 全屏覆盖层: 微信服务号会话（发简历卡片 + 3C 真人模拟追问 + 明日盯岗大决断） ===== -->
+<div class="pub-view" id="pubView" hidden>
+  <header class="pub-header">
+    <button class="pub-back" id="pubBackBtn" type="button" aria-label="返回工作台">‹ 工作台</button>
+    <div class="pub-title">
+      <b>岗位罗盘</b>
+      <span>服务号 · 求职伴跑</span>
+    </div>
+    <button class="pub-doc-btn" id="pubOpenResumeBtn" type="button">看简历</button>
+  </header>
+
+  <div class="pub-chat" id="pubChat"></div>
+
+  <div class="pub-composer">
+    <div class="pub-quick-drafts" id="pubQuickDrafts">
+      <button type="button" data-quick-ans="honest">填入：坦白缺口 + 亮 31 节点实绩</button>
+      <button type="button" data-quick-ans="vague">填入：只讲学习能力强（反面测试）</button>
+    </div>
+    <div class="pub-input-row">
+      <input type="text" id="pubMockInput" enterkeyhint="send" placeholder="直接回答上方追问，获取逐句点评…" autocomplete="off" />
+      <button class="pub-send" id="pubSendBtn" type="button">发送作答</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 网页兜底模态层: 完整方向版简历预览 + 页内 3C 模拟追问（不关注也 100% 可用） ===== -->
+<div class="modal-wrap" id="resumeModal" hidden>
+  <div class="sheet-mask" data-close-modal></div>
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <b id="modalResumeTitle">陈默 · 方向版简历（事实核验通过）</b>
+        <span>公司、时间、数字与原稿 100% 一致</span>
+      </div>
+      <button class="sheet-close" type="button" data-close-modal>关闭</button>
+    </div>
+    <div class="modal-body">
+      <div class="resume-paper" id="resumePaperContent"></div>
+
+      <div class="web-mock-box">
+        <div class="wm-head">
+          <b>页内 1 题模拟追问（青藤医疗 · 硬缺口必考）</b>
+          <span>无需关注也可练习</span>
+        </div>
+        <p class="wm-q">面试官：「你过去 4 年都在企服和教研，没摸过医院 HIS，凭什么接得住跨科室流程？」</p>
+        <div class="wm-row">
+          <input type="text" id="webMockInput" enterkeyhint="send" value="医疗系统我确实没直接做过，但我把7个部门31个手工节点做成工单系统，交付从14天压到6天，底层状态机相通。" />
+          <button type="button" id="webMockRunBtn">看点评</button>
+        </div>
+        <div class="wm-review" id="webMockReview" hidden></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="copy-resume-btn" id="copyFullResumeBtn" type="button">一键复制方向版简历全文（Markdown）</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
