@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="format-detection" content="telephone=no,email=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="theme-color" content="#F4F6F9" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#090D16" />
   <title>岗位罗盘 · 先判断值不值得投，再改简历去面试</title>
   <meta name="description" content="承接 BOSS 直聘求职需求：筛掉僵尸与挂羊头岗，生成零编造方向版简历，备好首句招呼语与缺口追问预案。" />
   <meta property="og:title" content="岗位罗盘 · 手机端求职工作台" />
   <meta property="og:description" content="先筛掉不值得聊的岗，再把方向版简历和第一句话备好。" />
   <meta property="og:url" content="https://wblyy.github.io/job-compass-h5/" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23121926'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='17' font-family='sans-serif' font-weight='700' fill='%23ffffff'%3E%E5%8C%97%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23090D16' stroke='%230FD478' stroke-width='2'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='17' font-family='sans-serif' font-weight='700' fill='%230FD478'%3E%E5%8C%97%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -70,21 +70,28 @@
 
       <!-- ===== Step 0: 首屏冷启动（手机清理大师式雷达扫描盘 + 求职上下文，严控一屏内可见） ===== -->
       <section class="screen" data-screen="entry">
-        <!-- 手机清理大师式中央雷达仪表盘 -->
+        <!-- 360 杀毒式深空声呐扫描仪表盘 -->
         <div class="radar-hero">
           <div class="cleaner-radar" id="cleanerRadar" aria-live="polite">
             <div class="radar-ripple" aria-hidden="true"></div>
-            <div class="radar-ticks" aria-hidden="true"></div>
+            <div class="radar-crosshair" aria-hidden="true"></div>
             <div class="radar-beam" aria-hidden="true"></div>
-            <svg class="radar-svg" viewBox="0 0 128 128" aria-hidden="true">
-              <circle class="radar-track" cx="64" cy="64" r="54" />
-              <circle class="radar-arc" id="radarArc" cx="64" cy="64" r="54"
-                stroke-dasharray="339.29" stroke-dashoffset="339.29" />
+            <div class="radar-blips" aria-hidden="true">
+              <i class="rb-1"></i>
+              <i class="rb-2"></i>
+              <i class="rb-3"></i>
+            </div>
+            <svg class="radar-svg" viewBox="0 0 140 140" aria-hidden="true">
+              <circle class="radar-scale" cx="70" cy="70" r="66" stroke-dasharray="1.4 5.51" />
+              <circle class="radar-ring-inner" cx="70" cy="70" r="39" />
+              <circle class="radar-track" cx="70" cy="70" r="56" />
+              <circle class="radar-arc" id="radarArc" cx="70" cy="70" r="56"
+                stroke-dasharray="351.86" stroke-dashoffset="351.86" />
             </svg>
             <div class="radar-center">
-              <span class="radar-kicker" id="radarKicker">五条规则待命</span>
+              <span class="radar-kicker" id="radarKicker">SONAR · READY</span>
               <b class="radar-num" id="radarMainNum">12</b>
-              <span class="radar-unit" id="radarUnit">个在招岗待清筛</span>
+              <span class="radar-unit" id="radarUnit">在招岗待查杀</span>
             </div>
           </div>
         </div>
