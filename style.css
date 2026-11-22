@@ -348,28 +348,236 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   background: var(--verdict-ok-soft);
 }
 
-/* ---------- Step 0: 首屏冷启动 ---------- */
+/* ---------- Step 0: 首屏冷启动 & 手机清理大师式雷达扫描仪 ---------- */
+.radar-hero {
+  display: flex;
+  justify-content: center;
+  margin: 6px 0 12px;
+}
+
+.cleaner-radar {
+  --radar-accent: var(--compass);
+  --radar-glow: rgba(15, 108, 189, 0.24);
+  --radar-bg-top: #FFFFFF;
+  --radar-bg-bot: #E6F2FD;
+  position: relative;
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 33%, rgba(15, 108, 189, 0.07) 33.5%, rgba(15, 108, 189, 0.07) 34.5%, transparent 35%),
+    radial-gradient(circle at 50% 50%, transparent 56%, rgba(15, 108, 189, 0.07) 56.5%, rgba(15, 108, 189, 0.07) 57.5%, transparent 58%),
+    radial-gradient(circle at 50% 35%, var(--radar-bg-top) 0%, var(--radar-bg-bot) 100%);
+  box-shadow:
+    0 14px 32px -10px var(--radar-glow),
+    inset 0 0 0 1px rgba(15, 108, 189, 0.16);
+  transition: box-shadow 0.22s ease, transform 0.2s ease, background 0.25s ease;
+}
+
+.radar-ticks {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(15, 108, 189, 0.30);
+  pointer-events: none;
+  transition: border-color 0.2s ease;
+}
+
+.radar-ripple {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid var(--radar-accent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.radar-beam {
+  position: absolute;
+  inset: 11px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(15, 108, 189, 0) 0deg,
+    rgba(15, 108, 189, 0) 230deg,
+    rgba(15, 108, 189, 0.10) 295deg,
+    rgba(15, 108, 189, 0.32) 352deg,
+    rgba(15, 108, 189, 0.72) 358.5deg,
+    rgba(15, 108, 189, 0) 360deg
+  );
+  animation: radarSpin 6.5s linear infinite;
+  pointer-events: none;
+}
+
+.radar-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.radar-track {
+  fill: none;
+  stroke: rgba(15, 108, 189, 0.13);
+  stroke-width: 7;
+}
+
+.radar-arc {
+  fill: none;
+  stroke: var(--radar-accent);
+  stroke-width: 7;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.16s linear, stroke 0.2s ease;
+}
+
+.radar-center {
+  position: relative;
+  z-index: 2;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 6px;
+}
+
+.radar-kicker {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: var(--radar-accent);
+  line-height: 1.2;
+}
+
+.radar-num {
+  font-family: var(--mono);
+  font-size: 31px;
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 2px 0 1px;
+}
+
+.radar-unit {
+  font-size: 10px;
+  color: var(--ink-muted);
+  line-height: 1.2;
+}
+
+/* 扫描态：高速旋转扇形光刃 + 外扩脉冲波纹 */
+.cleaner-radar.is-scanning {
+  box-shadow:
+    0 14px 34px -8px rgba(15, 108, 189, 0.42),
+    inset 0 0 0 1.5px rgba(15, 108, 189, 0.30);
+}
+
+.cleaner-radar.is-scanning .radar-beam {
+  background: conic-gradient(
+    from 0deg,
+    rgba(15, 108, 189, 0) 0deg,
+    rgba(15, 108, 189, 0.03) 195deg,
+    rgba(15, 108, 189, 0.24) 295deg,
+    rgba(15, 108, 189, 0.58) 352deg,
+    rgba(15, 108, 189, 0.95) 358.5deg,
+    rgba(15, 108, 189, 0) 360deg
+  );
+  animation: radarSpin 0.88s linear infinite;
+}
+
+.cleaner-radar.is-scanning .radar-ripple {
+  animation: radarPulse 1.1s ease-out infinite;
+}
+
+/* 揪出坑岗瞬间：琥珀红警报闪烁（类似清理大师扫出风险垃圾） */
+.cleaner-radar.is-scanning.hit-trap {
+  --radar-accent: #D9532F;
+  --radar-bg-bot: #FDECE8;
+  transform: scale(1.025);
+  box-shadow:
+    0 14px 34px -8px rgba(217, 83, 47, 0.45),
+    inset 0 0 0 1.5px rgba(217, 83, 47, 0.38);
+}
+
+.cleaner-radar.is-scanning.hit-trap .radar-ticks {
+  border-color: rgba(217, 83, 47, 0.45);
+}
+
+.cleaner-radar.is-scanning.hit-trap .radar-beam {
+  background: conic-gradient(
+    from 0deg,
+    rgba(217, 83, 47, 0) 0deg,
+    rgba(217, 83, 47, 0.04) 195deg,
+    rgba(217, 83, 47, 0.28) 295deg,
+    rgba(217, 83, 47, 0.64) 352deg,
+    rgba(217, 83, 47, 0.96) 358.5deg,
+    rgba(217, 83, 47, 0) 360deg
+  );
+}
+
+/* 清筛完成态：翠绿净土定格 */
+.cleaner-radar.scan-done {
+  --radar-accent: var(--verdict-ok);
+  --radar-bg-bot: #E3F7EF;
+  box-shadow:
+    0 12px 28px -8px rgba(14, 138, 98, 0.36),
+    inset 0 0 0 1.5px rgba(14, 138, 98, 0.32);
+}
+
+.cleaner-radar.scan-done .radar-ticks {
+  border-color: rgba(14, 138, 98, 0.38);
+}
+
+.cleaner-radar.scan-done .radar-beam {
+  opacity: 0;
+  animation: none;
+}
+
+@keyframes radarSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes radarPulse {
+  0% { transform: scale(0.96); opacity: 0.55; }
+  100% { transform: scale(1.22); opacity: 0; }
+}
+
+.entry-head {
+  text-align: center;
+}
+
 .hero-h1 {
-  font-size: 22px;
-  line-height: 1.32;
+  font-size: 21px;
+  line-height: 1.3;
   letter-spacing: -0.02em;
   font-weight: 700;
   color: var(--ink);
 }
 
 .hero-lead {
-  margin-top: 7px;
-  font-size: 12.5px;
-  line-height: 1.6;
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.52;
   color: var(--ink-muted);
 }
 
 .dossier-card {
-  margin-top: 13px;
+  margin-top: 11px;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 12px 13px;
+  padding: 10px 12px;
   box-shadow: var(--shadow-card);
 }
 
@@ -377,8 +585,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 8px;
-  margin-bottom: 9px;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
   border-bottom: 1px solid var(--line-soft);
 }
 
@@ -400,11 +608,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 6px 0;
+  padding: 4px 0;
 }
 
 .dc-k {
   flex: none;
+  width: 48px;
   font-size: 11.5px;
   color: var(--ink-faint);
   padding-top: 1px;
@@ -417,22 +626,22 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .dc-v b {
   display: block;
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--ink);
 }
 
 .dc-v small {
   display: block;
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--ink-muted);
   margin-top: 1px;
 }
 
 .custom-added {
-  margin-top: 6px;
-  padding: 5px 8px;
+  margin-top: 5px;
+  padding: 4px 8px;
   border-radius: 6px;
-  font-size: 11.5px;
+  font-size: 11px;
   background: var(--compass-soft);
   color: var(--compass-dark);
   font-weight: 500;
@@ -444,19 +653,19 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .dc-actions {
-  margin-top: 8px;
-  padding-top: 9px;
+  margin-top: 7px;
+  padding-top: 7px;
   border-top: 1px dashed var(--line);
 }
 
 .paste-trigger {
   width: 100%;
   min-height: 44px;
-  padding: 9px 10px;
+  padding: 8px 10px;
   border-radius: 8px;
   background: var(--surface-subtle);
   color: var(--compass-dark);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -468,40 +677,147 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   background: #DCE7F5;
 }
 
-.chain-strip {
-  margin-top: 12px;
+/* 扫描中实时清理面板 */
+.scan-live-panel {
+  margin-top: 11px;
   background: var(--surface);
-  border: 1px solid var(--line-soft);
-  border-radius: 10px;
-  padding: 10px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 11px;
+  box-shadow: var(--shadow-card);
 }
 
-.cs-node {
-  flex: 1;
+.scan-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.sm-cell {
+  background: var(--surface-subtle);
+  border-radius: 8px;
+  padding: 5px 6px;
   text-align: center;
 }
 
-.cs-node b {
+.sm-cell span {
   display: block;
-  font-size: 12px;
-  color: var(--ink);
+  font-size: 10px;
+  color: var(--ink-muted);
 }
 
-.cs-node span {
+.sm-cell b {
   display: block;
-  font-size: 10.5px;
-  color: var(--ink-muted);
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
   margin-top: 1px;
 }
 
-.cs-arrow {
-  color: var(--ink-faint);
+.sm-cell.trap {
+  background: var(--verdict-cap-soft);
+}
+
+.sm-cell.trap b {
+  color: var(--verdict-cap);
+}
+
+.sm-cell.keep {
+  background: var(--verdict-ok-soft);
+}
+
+.sm-cell.keep b {
+  color: var(--verdict-ok);
+}
+
+.scan-feed {
+  margin-top: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  scrollbar-width: none;
+}
+
+.scan-feed::-webkit-scrollbar {
+  display: none;
+}
+
+.sf-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 7px;
+  font-size: 11.5px;
+  background: #F8FAFC;
+  animation: feedPop 0.16s ease-out;
+}
+
+@keyframes feedPop {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sf-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.sf-badge {
+  flex: none;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.sf-drop .sf-badge {
+  background: var(--verdict-cap-soft);
+  color: var(--verdict-cap);
+}
+
+.sf-keep .sf-badge {
+  background: var(--verdict-ok-soft);
+  color: var(--verdict-ok);
+}
+
+.sf-name {
+  color: var(--ink-2);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sf-drop .sf-name {
+  color: var(--ink-muted);
+  text-decoration: line-through;
+  text-decoration-color: #CBD5E1;
+}
+
+.sf-note {
+  flex: none;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 10.5px;
+  color: var(--ink-muted);
+}
+
+.sf-drop .sf-note {
+  color: var(--verdict-cap);
+}
+
+.sf-keep .sf-note {
+  color: var(--verdict-ok);
+  font-weight: 600;
 }
 
 /* ---------- Step 1: 筛岗判断与压制标尺 ---------- */
@@ -521,8 +837,26 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .sb-top b {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--ink);
+  white-space: nowrap;
+}
+
+.sb-right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+}
+
+.rescan-btn {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--compass);
+  background: var(--surface-subtle);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
 }
 
 .sb-cap {
@@ -1550,6 +1884,16 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   background: var(--compass-dark);
 }
 
+.primary-cta.scanning-cta {
+  background: #1E293B;
+  box-shadow: 0 8px 20px -10px rgba(30, 41, 59, 0.55);
+}
+
+.primary-cta.done-cta {
+  background: var(--verdict-ok);
+  box-shadow: 0 8px 20px -10px rgba(14, 138, 98, 0.55);
+}
+
 .pc-main {
   font-size: 14.5px;
   font-weight: 650;
@@ -2079,20 +2423,28 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 @media (max-height: 705px) {
-  .topbar { padding-top: calc(var(--safe-t) + 6px); padding-bottom: 6px; }
+  .topbar { padding-top: calc(var(--safe-t) + 5px); padding-bottom: 5px; }
   .step-rail { padding-top: 4px; padding-bottom: 4px; }
-  .stage { padding-top: 9px; }
-  .eyebrow { margin-bottom: 5px; padding: 2px 8px; }
-  .hero-h1 { font-size: 19.5px; line-height: 1.28; }
-  .hero-lead { margin-top: 4px; font-size: 12px; line-height: 1.45; }
-  .dossier-card { margin-top: 8px; padding: 9px 11px; }
-  .dc-head { padding-bottom: 5px; margin-bottom: 5px; }
-  .dc-row { padding: 4px 0; }
-  .dc-actions { margin-top: 6px; padding-top: 6px; }
-  .chain-strip { margin-top: 8px; padding: 7px 8px; }
-  .bottom-spacer { height: 8px; }
-  .bottom-bar { padding-top: 5px; padding-bottom: calc(7px + var(--safe-b)); }
-  .primary-cta { min-height: 48px; padding: 6px 14px; }
+  .stage { padding-top: 7px; }
+  .radar-hero { margin: 0 0 6px; }
+  .cleaner-radar { width: 92px; height: 92px; }
+  .radar-beam { inset: 8px; }
+  .radar-center { width: 62px; height: 62px; padding: 0 3px; }
+  .radar-num { font-size: 20px; margin: 1px 0 0; }
+  .radar-kicker { font-size: 8px; }
+  .radar-unit { font-size: 8.5px; }
+  .eyebrow { margin-bottom: 4px; padding: 2px 7px; font-size: 10.5px; }
+  .hero-h1 { font-size: 18.5px; line-height: 1.26; }
+  .hero-lead { margin-top: 3px; font-size: 11.5px; line-height: 1.38; }
+  .dossier-card { margin-top: 7px; padding: 8px 10px; }
+  .dc-head { padding-bottom: 4px; margin-bottom: 4px; }
+  .dc-row { padding: 3px 0; }
+  .dc-actions { margin-top: 5px; padding-top: 5px; }
+  .scan-live-panel { margin-top: 7px; padding: 8px 9px; }
+  .scan-feed { max-height: 108px; }
+  .bottom-spacer { height: 6px; }
+  .bottom-bar { padding-top: 4px; padding-bottom: calc(6px + var(--safe-b)); }
+  .primary-cta { min-height: 48px; padding: 5px 14px; }
   .qr-box { width: 158px; height: 158px; margin: 10px auto; padding: 8px; }
 }
 
