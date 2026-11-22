@@ -7,7 +7,7 @@
     trap: '岗位：互联网产品经理 15-25k（底薪4.5k+高额提成）。核心职责：1. 每日外呼电销80通挖掘企业客户需求；2. 陌拜拓客签单按单提成。不限经验。'
   };
 
-  const RADAR_CIRC = 339.29;
+  const RADAR_CIRC = 351.86;
 
   const state = {
     screen: 'entry',          // 'entry' | 'step1' | 'step2' | 'step3' | 'step4'
@@ -108,10 +108,10 @@
     const radar = $('#cleanerRadar');
     const arc = $('#radarArc');
     if (radar) radar.classList.remove('is-scanning', 'hit-trap', 'scan-done');
-    if (arc) arc.style.strokeDashoffset = String((RADAR_CIRC * 0.86).toFixed(2));
-    if ($('#radarKicker')) $('#radarKicker').textContent = '五条规则待命';
+    if (arc) arc.style.strokeDashoffset = String((RADAR_CIRC * 0.84).toFixed(2));
+    if ($('#radarKicker')) $('#radarKicker').textContent = 'SONAR · READY';
     if ($('#radarMainNum')) $('#radarMainNum').textContent = String(total);
-    if ($('#radarUnit')) $('#radarUnit').textContent = '个在招岗待清筛';
+    if ($('#radarUnit')) $('#radarUnit').textContent = '在招岗待查杀';
     if ($('#entryIdlePanel')) $('#entryIdlePanel').hidden = false;
     if ($('#scanLivePanel')) $('#scanLivePanel').hidden = true;
     const cta = $('#primaryBtn');
@@ -170,9 +170,9 @@
     radar.classList.add('is-scanning');
     arc.style.strokeDashoffset = String(RADAR_CIRC);
 
-    $('#radarKicker').textContent = '正在扫描在招池';
+    $('#radarKicker').textContent = 'SCANNING';
     $('#radarMainNum').textContent = '0%';
-    $('#radarUnit').textContent = '识别挂羊头与硬伤';
+    $('#radarUnit').textContent = '引擎逐岗查杀中';
 
     $('#scanDoneNum').textContent = `0/${total}`;
     $('#scanTrapNum').textContent = '0';
@@ -180,7 +180,7 @@
 
     cta.classList.remove('done-cta');
     cta.classList.add('scanning-cta');
-    $('#primaryMain').textContent = `正在深度清筛在招岗（0/${total}）…`;
+    $('#primaryMain').textContent = `声呐查杀进行中（0/${total}）…`;
     $('#primarySub').textContent = '再次轻点此按钮可立即跳过动画直达结果';
 
     let trapCount = 0;
@@ -200,7 +200,7 @@
         if (item.kind === 'drop') {
           trapCount++;
           radar.classList.add('hit-trap');
-          $('#radarKicker').textContent = '揪出风险坑岗';
+          $('#radarKicker').textContent = 'THREAT · BLOCKED';
           $('#radarUnit').textContent = `已拦下 ${trapCount} 个坑岗`;
           row.className = 'sf-row sf-drop';
           row.innerHTML = `
@@ -213,7 +213,7 @@
         } else {
           keepCount++;
           radar.classList.remove('hit-trap');
-          $('#radarKicker').textContent = '纸面核验通过';
+          $('#radarKicker').textContent = 'VERIFIED · PASS';
           $('#radarUnit').textContent = `净留 ${keepCount} 个可争取岗`;
           row.className = 'sf-row sf-keep';
           row.innerHTML = `
@@ -231,7 +231,7 @@
         $('#scanDoneNum').textContent = `${done}/${total}`;
         $('#scanTrapNum').textContent = String(trapCount);
         $('#scanKeepNum').textContent = String(keepCount);
-        $('#primaryMain').textContent = `正在深度清筛在招岗（${done}/${total}）…`;
+        $('#primaryMain').textContent = `声呐查杀进行中（${done}/${total}）…`;
         enforceZeroSendGuard();
       }, (idx + 1) * stepMs);
       state.scanTimers.push(t);
@@ -243,7 +243,7 @@
       radar.classList.remove('is-scanning', 'hit-trap');
       radar.classList.add('scan-done');
       arc.style.strokeDashoffset = '0';
-      $('#radarKicker').textContent = '清筛完成 · 已净化';
+      $('#radarKicker').textContent = 'CLEAN · 100%';
       $('#radarMainNum').textContent = String(state.actionableJobs.length);
       $('#radarUnit').textContent = '个好岗值得开口';
       cta.classList.remove('scanning-cta');
@@ -561,7 +561,7 @@
       <div class="rp-sec">
         <b>核心经历（${escapeHtml(trackObj.fitFor)}）</b>
         <p style="margin-top:4px">${trackObj.afterLines.map(l => escapeHtml(l)).join('<br>')}</p>
-        <p style="margin-top:4px;color:#0E8A62">${escapeHtml(extraBullet)}</p>
+        <p style="margin-top:4px;color:var(--shield)">${escapeHtml(extraBullet)}</p>
       </div>
       <div class="rp-sec">
         <b>事实核验锁（0 编造）</b>
@@ -616,8 +616,8 @@
       appendPubBubble('bot', `
         <b>【1 对 1 真人追问演练 · 第 1/2 题】</b><br>
         针对你刚选的冲刺岗 <b>青藤医疗（61/95 · 硬缺口岗）</b>，HR 必问：<br>
-        <span style="color:#0A5396">「你过去 4 年都在企服和教研，没摸过医院 HIS，凭什么接得住跨科室流程？」</span><br>
-        <small style="color:#5A6679">请直接在下方输入你的原话（或点快捷草稿），我按面试官视角逐句给你挑刺。</small>
+        <span style="color:var(--shield)">「你过去 4 年都在企服和教研，没摸过医院 HIS，凭什么接得住跨科室流程？」</span><br>
+        <small style="color:var(--ink-muted)">请直接在下方输入你的原话（或点快捷草稿），我按面试官视角逐句给你挑刺。</small>
       `);
     }
   }
@@ -635,10 +635,10 @@
     const rev = window.evaluateMockAnswer(ans);
     appendPubBubble('bot', `
       <b>【逐句点评 · ${escapeHtml(rev.verdict)}】</b><br>
-      <span style="color:#5A6679;font-size:12px">${escapeHtml(rev.quoted)}</span><br>
+      <span style="color:var(--ink-muted);font-size:12px">${escapeHtml(rev.quoted)}</span><br>
       <div style="margin-top:5px"><b>稳住的点：</b>${escapeHtml(rev.strengths.join('；'))}</div>
       <div style="margin-top:3px"><b>可补强的点：</b>${escapeHtml(rev.gaps.join('；'))}</div>
-      <div style="margin-top:6px;padding:7px 8px;background:#F4F6F9;border-radius:6px;font-size:12px">${escapeHtml(rev.upgrade)}</div>
+      <div style="margin-top:6px;padding:7px 8px;background:var(--surface-subtle);border-radius:6px;font-size:12px">${escapeHtml(rev.upgrade)}</div>
     `);
 
     if (!state.digestPref) {
@@ -931,7 +931,7 @@
         <b>点评结论：${escapeHtml(rev.verdict)}</b><br>
         <span>稳住：${escapeHtml(rev.strengths.join('；'))}</span><br>
         <span>待补：${escapeHtml(rev.gaps.join('；'))}</span><br>
-        <div style="margin-top:4px;color:#0A5396">${escapeHtml(rev.upgrade)}</div>
+        <div style="margin-top:4px;color:var(--shield)">${escapeHtml(rev.upgrade)}</div>
       `;
     });
     $('#copyFullResumeBtn').addEventListener('click', async () => {
