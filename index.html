@@ -68,30 +68,50 @@
 
     <main class="stage" id="stage">
 
-      <!-- ===== Step 0: 首屏冷启动（承接刚从 BOSS 直聘过来的那一刻，严控一屏内可见） ===== -->
+      <!-- ===== Step 0: 首屏冷启动（手机清理大师式雷达扫描盘 + 求职上下文，严控一屏内可见） ===== -->
       <section class="screen" data-screen="entry">
-        <div class="eyebrow">刚刷完 BOSS 直聘？别拿通用简历海投</div>
-        <h1 class="hero-h1" id="entryTitle">先筛掉不值得聊的岗，<br>再把简历和第一句话备好。</h1>
-        <p class="hero-lead">主动沟通回复率不到 5%，症结在僵尸岗混杂、招呼语太像模板。你只管拍板，依据我来备齐。</p>
+        <!-- 手机清理大师式中央雷达仪表盘 -->
+        <div class="radar-hero">
+          <div class="cleaner-radar" id="cleanerRadar" aria-live="polite">
+            <div class="radar-ripple" aria-hidden="true"></div>
+            <div class="radar-ticks" aria-hidden="true"></div>
+            <div class="radar-beam" aria-hidden="true"></div>
+            <svg class="radar-svg" viewBox="0 0 128 128" aria-hidden="true">
+              <circle class="radar-track" cx="64" cy="64" r="54" />
+              <circle class="radar-arc" id="radarArc" cx="64" cy="64" r="54"
+                stroke-dasharray="339.29" stroke-dashoffset="339.29" />
+            </svg>
+            <div class="radar-center">
+              <span class="radar-kicker" id="radarKicker">五条规则待命</span>
+              <b class="radar-num" id="radarMainNum">12</b>
+              <span class="radar-unit" id="radarUnit">个在招岗待清筛</span>
+            </div>
+          </div>
+        </div>
 
-        <!-- 当前已载入的求职上下文卡片 -->
-        <div class="dossier-card">
+        <div class="entry-head">
+          <div class="eyebrow" id="entryEyebrow">刚刷完 BOSS 直聘？先清掉坑岗再开口</div>
+          <h1 class="hero-h1" id="entryTitle">先筛掉不值得聊的岗，<br>再把简历和第一句话备好。</h1>
+          <p class="hero-lead" id="entryLead">主动沟通回复率不到 5%，症结在僵尸岗混杂、招呼语太像模板。你只管拍板，依据我来备齐。</p>
+        </div>
+
+        <!-- 待命态：当前已载入的求职上下文卡片 -->
+        <div class="dossier-card" id="entryIdlePanel">
           <div class="dc-head">
-            <span class="dc-badge">已就绪样本</span>
-            <span class="dc-privacy">本地解析 · 原件不出手机</span>
+            <span class="dc-badge">已就绪样本 · 陈默（B端产品 4年）</span>
+            <span class="dc-privacy">原件不出手机</span>
           </div>
           <div class="dc-row">
-            <span class="dc-k">原稿履历</span>
+            <span class="dc-k">核心实绩</span>
             <div class="dc-v">
-              <b>陈默 · B端产品经理（4年）</b>
-              <small>上海 · 底线 18k · 31 节点工单 / 7 部门权限重构</small>
+              <b>上海 · 底线 18k · 31 节点工单 / 7 部门权限重构</b>
             </div>
           </div>
           <div class="dc-row">
-            <span class="dc-k">待判岗位</span>
+            <span class="dc-k">待检池</span>
             <div class="dc-v">
               <b id="poolSummaryText">刚从 BOSS 收藏的 12 个在招岗</b>
-              <small id="poolSubText">含同城、跨城与跨行业机会，待跑五条压制规则</small>
+              <small id="poolSubText">含挂羊头电销、硬门槛死局与高匹配主线岗</small>
               <div class="custom-added" id="customAddedBadge" hidden></div>
             </div>
           </div>
@@ -102,22 +122,23 @@
           </div>
         </div>
 
-        <!-- 0453club 三步价值链微缩说明 -->
-        <div class="chain-strip">
-          <div class="cs-node">
-            <b>01 判值不值</b>
-            <span>95分封顶筛除坑岗</span>
+        <!-- 扫描态：手机清理大师式实时揪坑计数器 + 滚动清理流水 -->
+        <div class="scan-live-panel" id="scanLivePanel" hidden>
+          <div class="scan-metrics">
+            <div class="sm-cell">
+              <span>扫描进度</span>
+              <b id="scanDoneNum">0/12</b>
+            </div>
+            <div class="sm-cell trap">
+              <span>揪出坑岗</span>
+              <b id="scanTrapNum">0</b>
+            </div>
+            <div class="sm-cell keep">
+              <span>净留可投</span>
+              <b id="scanKeepNum">0</b>
+            </div>
           </div>
-          <div class="cs-arrow">→</div>
-          <div class="cs-node">
-            <b>02 改方向稿</b>
-            <span>锁死事实提炼主线</span>
-          </div>
-          <div class="cs-arrow">→</div>
-          <div class="cs-node">
-            <b>03 备好再投</b>
-            <span>定制首句与追问卡</span>
-          </div>
+          <div class="scan-feed" id="scanFeed" role="log" aria-label="实时筛岗清理记录"></div>
         </div>
       </section>
 
@@ -125,8 +146,11 @@
       <section class="screen" data-screen="step1" hidden>
         <div class="scan-banner" id="scanBanner">
           <div class="sb-top">
-            <b id="scanTitle">已扫完 <span id="totalScannedNum">12</span> 个在招岗 · 拦下 <span id="suppressedCountNum">7</span> 个坑岗</b>
-            <span class="sb-cap">纸面 95 分封顶</span>
+            <b id="scanTitle">已清筛 <span id="totalScannedNum">12</span> 个在招岗 · 拦下 <span id="suppressedCountNum">7</span> 个坑岗</b>
+            <div class="sb-right">
+              <button class="rescan-btn" id="rescanBtn" type="button">重新扫描</button>
+              <span class="sb-cap">95 分封顶</span>
+            </div>
           </div>
           <div class="sb-meter">
             <i class="m-ok" style="width:25%"></i>
