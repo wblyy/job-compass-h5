@@ -1,28 +1,44 @@
-/* ===== 岗位罗盘 H5 Demo · Compass Dossier 样式系统 ===== */
+/* ===== 岗位罗盘 H5 Demo · 360 Cyber-Sonar 深空声呐极简色彩系统 ===== */
 :root {
-  --paper: #F4F6F9;
-  --surface: #FFFFFF;
-  --surface-subtle: #EDF1F6;
-  --ink: #121926;
-  --ink-2: #364152;
-  --ink-muted: #5A6679;
-  --ink-faint: #8492A6;
-  --line: #DCE3EC;
-  --line-soft: #E9EEF5;
-  --compass: #0F6CBD;
-  --compass-dark: #0A5396;
-  --compass-soft: #E6F1FB;
-  --verdict-ok: #0E8A62;
-  --verdict-ok-soft: #E5F6F0;
-  --verdict-gap: #C86D14;
-  --verdict-gap-soft: #FDF2E4;
-  --verdict-cap: #B43B3B;
-  --verdict-cap-soft: #FCECEC;
+  --paper: #090D16;
+  --surface: #101724;
+  --surface-subtle: #162032;
+  --surface-elevated: #1A263B;
+  --ink: #F1F5F9;
+  --ink-2: #CBD5E1;
+  --ink-muted: #8494AA;
+  --ink-faint: #55657B;
+  --line: #202E44;
+  --line-soft: #182336;
+
+  /* 唯一主科技引擎色：360 电光护盾绿 */
+  --shield: #0FD478;
+  --shield-bright: #34F59A;
+  --shield-ink: #04160C;
+  --shield-soft: rgba(15, 212, 120, 0.12);
+  --shield-line: rgba(15, 212, 120, 0.30);
+
+  /* 唯一克制风险提示色：拦截琥珀（仅用于压制坑岗与硬缺口点位） */
+  --threat: #F59E0B;
+  --threat-soft: rgba(245, 158, 11, 0.12);
+  --threat-line: rgba(245, 158, 11, 0.30);
+
+  /* 语义别名统一收束，彻底消灭多色块杂讯 */
+  --compass: var(--shield);
+  --compass-dark: var(--shield-bright);
+  --compass-soft: var(--shield-soft);
+  --verdict-ok: var(--shield);
+  --verdict-ok-soft: var(--shield-soft);
+  --verdict-gap: var(--threat);
+  --verdict-gap-soft: var(--threat-soft);
+  --verdict-cap: var(--threat);
+  --verdict-cap-soft: var(--threat-soft);
+
   --sans: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-b: env(safe-area-inset-bottom, 0px);
-  --shadow-card: 0 2px 8px rgba(18, 25, 38, 0.04), 0 1px 2px rgba(18, 25, 38, 0.03);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 *, *::before, *::after {
@@ -39,6 +55,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   background: var(--paper);
+  color-scheme: dark;
   overflow-x: hidden;
 }
 
@@ -72,7 +89,7 @@ button {
 }
 
 button:focus-visible, input:focus-visible, textarea:focus-visible {
-  outline: 2px solid var(--compass);
+  outline: 2px solid var(--shield);
   outline-offset: 2px;
 }
 
@@ -85,12 +102,17 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 50% 9%, rgba(15, 212, 120, 0.09) 0%, rgba(9, 13, 22, 0) 52%),
+    linear-gradient(180deg, rgba(15, 212, 120, 0.02) 0%, rgba(9, 13, 22, 0) 24%);
 }
 
 @media (min-width: 860px) {
   body {
-    background: #E6ECF3;
+    background:
+      radial-gradient(circle at 72% 36%, rgba(15, 212, 120, 0.08), transparent 44%),
+      #05080F;
   }
   .shell {
     max-width: 980px;
@@ -109,14 +131,15 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   .da-tag {
     font-family: var(--mono);
     font-size: 11px;
-    letter-spacing: 0.08em;
-    color: var(--compass);
+    letter-spacing: 0.1em;
+    color: var(--shield);
     margin-bottom: 10px;
   }
   .desk-aside h2 {
     font-size: 26px;
     line-height: 1.3;
     letter-spacing: -0.02em;
+    color: var(--ink);
     margin-bottom: 10px;
   }
   .desk-aside > p {
@@ -132,7 +155,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     gap: 12px;
   }
   .da-rules li {
-    background: rgba(255, 255, 255, 0.72);
+    background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 10px;
     padding: 11px 14px;
@@ -140,7 +163,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   .da-rules b {
     display: block;
     font-size: 13px;
-    color: var(--ink);
+    color: var(--shield);
     margin-bottom: 2px;
   }
   .da-rules span {
@@ -153,8 +176,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     border-radius: 28px;
     overflow-y: auto;
     overflow-x: hidden;
-    border: 6px solid #1E293B;
-    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+    border: 5px solid #1C2739;
+    box-shadow:
+      0 28px 70px rgba(0, 0, 0, 0.72),
+      0 0 0 1px rgba(15, 212, 120, 0.16);
     position: relative;
   }
 }
@@ -168,7 +193,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   align-items: center;
   justify-content: space-between;
   padding: calc(var(--safe-t) + 9px) 15px 9px;
-  background: var(--surface);
+  background: rgba(16, 23, 36, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line-soft);
 }
 
@@ -183,13 +210,15 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   width: 26px;
   height: 26px;
   border-radius: 7px;
-  background: var(--ink);
-  color: #FFFFFF;
+  background: rgba(15, 212, 120, 0.12);
+  border: 1px solid var(--shield-line);
+  color: var(--shield);
   display: grid;
   place-items: center;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.02em;
+  box-shadow: inset 0 0 8px rgba(15, 212, 120, 0.14);
 }
 
 .brand-txt b {
@@ -197,12 +226,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-size: 14px;
   line-height: 1.2;
   letter-spacing: 0.02em;
+  color: var(--ink);
 }
 
 .brand-txt span {
   display: block;
   font-size: 10px;
-  color: var(--ink-faint);
+  color: var(--ink-muted);
 }
 
 .top-status {
@@ -217,8 +247,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   gap: 4px;
   padding: 3px 8px;
   border-radius: 99px;
-  background: var(--compass-soft);
-  color: var(--compass);
+  background: var(--surface-subtle);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
   font-size: 11px;
   font-weight: 600;
 }
@@ -227,8 +258,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-style: normal;
   font-family: var(--mono);
   font-size: 10px;
-  background: var(--compass);
-  color: #FFFFFF;
+  background: var(--shield);
+  color: var(--shield-ink);
+  font-weight: 700;
   border-radius: 99px;
   padding: 0 5px;
   line-height: 1.45;
@@ -237,11 +269,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .zero-guard {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
+  gap: 5px;
+  padding: 3px 9px;
   border-radius: 99px;
-  background: var(--verdict-ok-soft);
-  color: var(--verdict-ok);
+  background: rgba(15, 212, 120, 0.09);
+  border: 1px solid rgba(15, 212, 120, 0.24);
+  color: var(--shield);
   font-size: 11px;
 }
 
@@ -249,7 +282,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--verdict-ok);
+  background: var(--shield);
+  box-shadow: 0 0 6px var(--shield);
 }
 
 .zero-guard b {
@@ -277,7 +311,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   border-radius: 7px;
   font-size: 11.5px;
   color: var(--ink-faint);
-  transition: background 0.18s, color 0.18s;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
 }
 
 .sr-item i {
@@ -288,29 +322,30 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   height: 15px;
   border-radius: 50%;
   background: var(--surface-subtle);
-  color: var(--ink-muted);
+  color: var(--ink-faint);
   display: grid;
   place-items: center;
 }
 
 .sr-item.unlocked {
-  color: var(--ink-2);
+  color: var(--ink-muted);
 }
 
 .sr-item.unlocked i {
-  background: #D8E6F6;
-  color: var(--compass-dark);
+  background: var(--surface-elevated);
+  color: var(--ink-2);
 }
 
 .sr-item.active {
-  background: var(--compass-soft);
-  color: var(--compass-dark);
+  background: var(--shield-soft);
+  color: var(--shield);
   font-weight: 600;
 }
 
 .sr-item.active i {
-  background: var(--compass);
-  color: #FFFFFF;
+  background: var(--shield);
+  color: var(--shield-ink);
+  font-weight: 700;
 }
 
 .sr-item:disabled {
@@ -336,19 +371,21 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   display: inline-block;
   font-size: 11px;
   font-weight: 600;
-  color: var(--compass);
-  background: var(--compass-soft);
+  color: var(--shield);
+  background: rgba(15, 212, 120, 0.10);
+  border: 1px solid rgba(15, 212, 120, 0.24);
   padding: 3px 9px;
   border-radius: 6px;
   margin-bottom: 8px;
+  letter-spacing: 0.02em;
 }
 
 .eyebrow.ok {
-  color: var(--verdict-ok);
-  background: var(--verdict-ok-soft);
+  color: var(--shield-bright);
+  background: rgba(15, 212, 120, 0.14);
 }
 
-/* ---------- Step 0: 首屏冷启动 & 手机清理大师式雷达扫描仪 ---------- */
+/* ---------- Step 0: 360 杀毒式深空声呐激光雷达盘 ---------- */
 .radar-hero {
   display: flex;
   justify-content: center;
@@ -356,10 +393,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .cleaner-radar {
-  --radar-accent: var(--compass);
-  --radar-glow: rgba(15, 108, 189, 0.24);
-  --radar-bg-top: #FFFFFF;
-  --radar-bg-bot: #E6F2FD;
+  --radar-accent: var(--shield);
+  --radar-rgb: 15, 212, 120;
   position: relative;
   width: 148px;
   height: 148px;
@@ -368,48 +403,79 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   place-items: center;
   cursor: pointer;
   background:
-    radial-gradient(circle at 50% 50%, transparent 33%, rgba(15, 108, 189, 0.07) 33.5%, rgba(15, 108, 189, 0.07) 34.5%, transparent 35%),
-    radial-gradient(circle at 50% 50%, transparent 56%, rgba(15, 108, 189, 0.07) 56.5%, rgba(15, 108, 189, 0.07) 57.5%, transparent 58%),
-    radial-gradient(circle at 50% 35%, var(--radar-bg-top) 0%, var(--radar-bg-bot) 100%);
+    radial-gradient(circle at 50% 50%, rgba(var(--radar-rgb), 0.13) 0%, rgba(11, 18, 30, 0.94) 58%, #070B13 100%);
   box-shadow:
-    0 14px 32px -10px var(--radar-glow),
-    inset 0 0 0 1px rgba(15, 108, 189, 0.16);
-  transition: box-shadow 0.22s ease, transform 0.2s ease, background 0.25s ease;
+    0 0 0 1px rgba(var(--radar-rgb), 0.28),
+    0 14px 36px -8px rgba(0, 0, 0, 0.78),
+    0 0 28px -6px rgba(var(--radar-rgb), 0.26),
+    inset 0 0 22px rgba(var(--radar-rgb), 0.12);
+  transition: box-shadow 0.22s ease, transform 0.2s ease;
 }
 
-.radar-ticks {
+/* 精密十字准星轴线 */
+.radar-crosshair {
   position: absolute;
-  inset: -6px;
+  inset: 12px;
   border-radius: 50%;
-  border: 1.5px dashed rgba(15, 108, 189, 0.30);
   pointer-events: none;
-  transition: border-color 0.2s ease;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(var(--radar-rgb), 0.18) calc(50% - 0.5px), rgba(var(--radar-rgb), 0.18) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(0deg, transparent calc(50% - 0.5px), rgba(var(--radar-rgb), 0.18) calc(50% - 0.5px), rgba(var(--radar-rgb), 0.18) calc(50% + 0.5px), transparent calc(50% + 0.5px));
 }
 
 .radar-ripple {
   position: absolute;
   inset: -2px;
   border-radius: 50%;
-  border: 2px solid var(--radar-accent);
+  border: 1.5px solid var(--radar-accent);
   opacity: 0;
   pointer-events: none;
 }
 
+/* 激光扇形扫描束 + 高锐度前缘光刃 */
 .radar-beam {
   position: absolute;
-  inset: 11px;
+  inset: 8px;
   border-radius: 50%;
   background: conic-gradient(
     from 0deg,
-    rgba(15, 108, 189, 0) 0deg,
-    rgba(15, 108, 189, 0) 230deg,
-    rgba(15, 108, 189, 0.10) 295deg,
-    rgba(15, 108, 189, 0.32) 352deg,
-    rgba(15, 108, 189, 0.72) 358.5deg,
-    rgba(15, 108, 189, 0) 360deg
+    rgba(var(--radar-rgb), 0) 0deg,
+    rgba(var(--radar-rgb), 0) 238deg,
+    rgba(var(--radar-rgb), 0.06) 290deg,
+    rgba(var(--radar-rgb), 0.24) 346deg,
+    rgba(var(--radar-rgb), 0.78) 358.5deg,
+    rgba(255, 255, 255, 0.85) 359.6deg,
+    rgba(var(--radar-rgb), 0) 360deg
   );
-  animation: radarSpin 6.5s linear infinite;
+  animation: radarSpin 5.6s linear infinite;
   pointer-events: none;
+}
+
+/* 声呐探测目标回波点 */
+.radar-blips {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.radar-blips i {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--radar-accent);
+  box-shadow: 0 0 8px var(--radar-accent);
+  opacity: 0.35;
+  animation: blipBlink 2.6s ease-in-out infinite;
+}
+
+.radar-blips .rb-1 { top: 23%; left: 72%; animation-delay: 0s; }
+.radar-blips .rb-2 { top: 68%; left: 24%; animation-delay: 0.9s; }
+.radar-blips .rb-3 { top: 74%; left: 71%; animation-delay: 1.7s; }
+
+@keyframes blipBlink {
+  0%, 100% { opacity: 0.16; transform: scale(0.8); }
+  45% { opacity: 0.95; transform: scale(1.25); }
 }
 
 .radar-svg {
@@ -421,126 +487,119 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   pointer-events: none;
 }
 
+.radar-scale {
+  fill: none;
+  stroke: rgba(var(--radar-rgb), 0.34);
+  stroke-width: 3;
+}
+
+.radar-ring-inner {
+  fill: none;
+  stroke: rgba(var(--radar-rgb), 0.16);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+
 .radar-track {
   fill: none;
-  stroke: rgba(15, 108, 189, 0.13);
-  stroke-width: 7;
+  stroke: rgba(var(--radar-rgb), 0.14);
+  stroke-width: 4.5;
 }
 
 .radar-arc {
   fill: none;
   stroke: var(--radar-accent);
-  stroke-width: 7;
+  stroke-width: 4.5;
   stroke-linecap: round;
+  filter: drop-shadow(0 0 5px rgba(var(--radar-rgb), 0.65));
   transition: stroke-dashoffset 0.16s linear, stroke 0.2s ease;
 }
 
 .radar-center {
   position: relative;
   z-index: 2;
-  width: 96px;
-  height: 96px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.84);
-  backdrop-filter: blur(2px);
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+  background: radial-gradient(circle at 50% 35%, rgba(18, 28, 45, 0.94) 0%, rgba(9, 13, 22, 0.97) 100%);
+  border: 1px solid rgba(var(--radar-rgb), 0.24);
+  box-shadow: inset 0 0 14px rgba(var(--radar-rgb), 0.10);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 0 6px;
+  padding: 0 4px;
 }
 
 .radar-kicker {
-  font-size: 10px;
-  font-weight: 650;
-  letter-spacing: 0.02em;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   color: var(--radar-accent);
-  line-height: 1.2;
+  line-height: 1.15;
+  white-space: nowrap;
 }
 
 .radar-num {
   font-family: var(--mono);
-  font-size: 31px;
+  font-size: 30px;
   font-weight: 800;
-  line-height: 1.06;
+  line-height: 1.05;
   letter-spacing: -0.03em;
-  color: var(--ink);
+  color: #FFFFFF;
+  text-shadow: 0 0 14px rgba(var(--radar-rgb), 0.42);
   margin: 2px 0 1px;
 }
 
 .radar-unit {
-  font-size: 10px;
+  font-size: 9.5px;
   color: var(--ink-muted);
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
-/* 扫描态：高速旋转扇形光刃 + 外扩脉冲波纹 */
+/* 扫描态：高频激光旋转 + 声呐外扩冲击波 */
 .cleaner-radar.is-scanning {
   box-shadow:
-    0 14px 34px -8px rgba(15, 108, 189, 0.42),
-    inset 0 0 0 1.5px rgba(15, 108, 189, 0.30);
+    0 0 0 1.5px rgba(var(--radar-rgb), 0.55),
+    0 14px 38px -6px rgba(0, 0, 0, 0.82),
+    0 0 36px -4px rgba(var(--radar-rgb), 0.46),
+    inset 0 0 26px rgba(var(--radar-rgb), 0.22);
 }
 
 .cleaner-radar.is-scanning .radar-beam {
-  background: conic-gradient(
-    from 0deg,
-    rgba(15, 108, 189, 0) 0deg,
-    rgba(15, 108, 189, 0.03) 195deg,
-    rgba(15, 108, 189, 0.24) 295deg,
-    rgba(15, 108, 189, 0.58) 352deg,
-    rgba(15, 108, 189, 0.95) 358.5deg,
-    rgba(15, 108, 189, 0) 360deg
-  );
-  animation: radarSpin 0.88s linear infinite;
+  animation: radarSpin 0.84s linear infinite;
 }
 
 .cleaner-radar.is-scanning .radar-ripple {
-  animation: radarPulse 1.1s ease-out infinite;
+  animation: radarPulse 1.05s ease-out infinite;
 }
 
-/* 揪出坑岗瞬间：琥珀红警报闪烁（类似清理大师扫出风险垃圾） */
+.cleaner-radar.is-scanning .radar-blips i {
+  animation-duration: 0.65s;
+}
+
+/* 揪出风险坑岗瞬间：克制琥珀脉冲锁定（不引入廉价粉红底色） */
 .cleaner-radar.is-scanning.hit-trap {
-  --radar-accent: #D9532F;
-  --radar-bg-bot: #FDECE8;
+  --radar-accent: var(--threat);
+  --radar-rgb: 245, 158, 11;
   transform: scale(1.025);
-  box-shadow:
-    0 14px 34px -8px rgba(217, 83, 47, 0.45),
-    inset 0 0 0 1.5px rgba(217, 83, 47, 0.38);
 }
 
-.cleaner-radar.is-scanning.hit-trap .radar-ticks {
-  border-color: rgba(217, 83, 47, 0.45);
-}
-
-.cleaner-radar.is-scanning.hit-trap .radar-beam {
-  background: conic-gradient(
-    from 0deg,
-    rgba(217, 83, 47, 0) 0deg,
-    rgba(217, 83, 47, 0.04) 195deg,
-    rgba(217, 83, 47, 0.28) 295deg,
-    rgba(217, 83, 47, 0.64) 352deg,
-    rgba(217, 83, 47, 0.96) 358.5deg,
-    rgba(217, 83, 47, 0) 360deg
-  );
-}
-
-/* 清筛完成态：翠绿净土定格 */
+/* 清筛完成态：满环电光护盾绿锁定 */
 .cleaner-radar.scan-done {
-  --radar-accent: var(--verdict-ok);
-  --radar-bg-bot: #E3F7EF;
+  --radar-accent: var(--shield-bright);
+  --radar-rgb: 15, 212, 120;
   box-shadow:
-    0 12px 28px -8px rgba(14, 138, 98, 0.36),
-    inset 0 0 0 1.5px rgba(14, 138, 98, 0.32);
-}
-
-.cleaner-radar.scan-done .radar-ticks {
-  border-color: rgba(14, 138, 98, 0.38);
+    0 0 0 1.5px rgba(15, 212, 120, 0.52),
+    0 12px 32px -6px rgba(0, 0, 0, 0.8),
+    0 0 32px -4px rgba(15, 212, 120, 0.42),
+    inset 0 0 22px rgba(15, 212, 120, 0.18);
 }
 
 .cleaner-radar.scan-done .radar-beam {
-  opacity: 0;
+  opacity: 0.18;
   animation: none;
 }
 
@@ -549,8 +608,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 @keyframes radarPulse {
-  0% { transform: scale(0.96); opacity: 0.55; }
-  100% { transform: scale(1.22); opacity: 0; }
+  0% { transform: scale(0.97); opacity: 0.65; }
+  100% { transform: scale(1.24); opacity: 0; }
 }
 
 .entry-head {
@@ -595,13 +654,14 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-weight: 600;
   color: var(--ink-2);
   background: var(--surface-subtle);
+  border: 1px solid var(--line);
   padding: 2px 7px;
   border-radius: 4px;
 }
 
 .dc-privacy {
   font-size: 11px;
-  color: var(--verdict-ok);
+  color: var(--shield);
 }
 
 .dc-row {
@@ -615,7 +675,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   flex: none;
   width: 48px;
   font-size: 11.5px;
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   padding-top: 1px;
 }
 
@@ -642,14 +702,16 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   padding: 4px 8px;
   border-radius: 6px;
   font-size: 11px;
-  background: var(--compass-soft);
-  color: var(--compass-dark);
+  background: var(--shield-soft);
+  border: 1px solid var(--shield-line);
+  color: var(--shield-bright);
   font-weight: 500;
 }
 
 .custom-added.warn {
-  background: var(--verdict-cap-soft);
-  color: var(--verdict-cap);
+  background: var(--threat-soft);
+  border: 1px solid var(--threat-line);
+  color: var(--threat);
 }
 
 .dc-actions {
@@ -664,20 +726,23 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   padding: 8px 10px;
   border-radius: 8px;
   background: var(--surface-subtle);
-  color: var(--compass-dark);
+  border: 1px solid var(--line);
+  color: var(--shield);
   font-size: 12.5px;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  transition: border-color 0.15s, background 0.15s;
 }
 
 .paste-trigger:active {
-  background: #DCE7F5;
+  background: var(--surface-elevated);
+  border-color: var(--shield-line);
 }
 
-/* 扫描中实时清理面板 */
+/* 扫描中实时清理遥测面板 */
 .scan-live-panel {
   margin-top: 11px;
   background: var(--surface);
@@ -697,6 +762,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .sm-cell {
   background: var(--surface-subtle);
+  border: 1px solid var(--line-soft);
   border-radius: 8px;
   padding: 5px 6px;
   text-align: center;
@@ -718,19 +784,19 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .sm-cell.trap {
-  background: var(--verdict-cap-soft);
+  border-color: rgba(245, 158, 11, 0.22);
 }
 
 .sm-cell.trap b {
-  color: var(--verdict-cap);
+  color: var(--threat);
 }
 
 .sm-cell.keep {
-  background: var(--verdict-ok-soft);
+  border-color: rgba(15, 212, 120, 0.24);
 }
 
 .sm-cell.keep b {
-  color: var(--verdict-ok);
+  color: var(--shield);
 }
 
 .scan-feed {
@@ -755,7 +821,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   padding: 5px 8px;
   border-radius: 7px;
   font-size: 11.5px;
-  background: #F8FAFC;
+  background: var(--surface-subtle);
+  border: 1px solid var(--line-soft);
   animation: feedPop 0.16s ease-out;
 }
 
@@ -774,6 +841,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .sf-badge {
   flex: none;
+  font-family: var(--mono);
   font-size: 10px;
   font-weight: 700;
   padding: 1px 5px;
@@ -781,13 +849,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .sf-drop .sf-badge {
-  background: var(--verdict-cap-soft);
-  color: var(--verdict-cap);
+  background: var(--threat-soft);
+  color: var(--threat);
 }
 
 .sf-keep .sf-badge {
-  background: var(--verdict-ok-soft);
-  color: var(--verdict-ok);
+  background: var(--shield-soft);
+  color: var(--shield);
 }
 
 .sf-name {
@@ -799,9 +867,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .sf-drop .sf-name {
-  color: var(--ink-muted);
+  color: var(--ink-faint);
   text-decoration: line-through;
-  text-decoration-color: #CBD5E1;
+  text-decoration-color: var(--ink-faint);
 }
 
 .sf-note {
@@ -812,11 +880,11 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .sf-drop .sf-note {
-  color: var(--verdict-cap);
+  color: var(--threat);
 }
 
 .sf-keep .sf-note {
-  color: var(--verdict-ok);
+  color: var(--shield);
   font-weight: 600;
 }
 
@@ -852,8 +920,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .rescan-btn {
   font-size: 10.5px;
   font-weight: 600;
-  color: var(--compass);
+  color: var(--ink-2);
   background: var(--surface-subtle);
+  border: 1px solid var(--line);
   padding: 2px 6px;
   border-radius: 4px;
   white-space: nowrap;
@@ -862,8 +931,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .sb-cap {
   font-family: var(--mono);
   font-size: 10.5px;
-  color: var(--compass-dark);
-  background: var(--compass-soft);
+  color: var(--shield);
+  background: var(--shield-soft);
+  border: 1px solid rgba(15, 212, 120, 0.24);
   padding: 2px 7px;
   border-radius: 4px;
   white-space: nowrap;
@@ -884,9 +954,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   height: 100%;
 }
 
-.m-ok { background: var(--verdict-ok); }
-.m-stretch { background: var(--verdict-gap); }
-.m-cut { background: #CBD5E1; }
+.m-ok { background: var(--shield); }
+.m-stretch { background: rgba(15, 212, 120, 0.42); }
+.m-cut { background: #26354D; }
 
 .sb-sub {
   font-size: 11.5px;
@@ -909,10 +979,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .db-tag {
+  font-family: var(--mono);
   font-size: 10.5px;
   font-weight: 600;
-  color: var(--compass-dark);
-  background: var(--compass-soft);
+  color: var(--shield);
+  background: var(--shield-soft);
+  border: 1px solid rgba(15, 212, 120, 0.22);
   padding: 2px 6px;
   border-radius: 4px;
   white-space: nowrap;
@@ -933,14 +1005,16 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   padding: 6px 6px;
   border-radius: 7px;
   background: var(--surface-subtle);
+  border: 1px solid transparent;
   color: var(--ink-muted);
   font-size: 11.5px;
   text-align: center;
 }
 
 .seg.active {
-  background: var(--ink);
-  color: #FFFFFF;
+  background: var(--shield-soft);
+  border-color: var(--shield-line);
+  color: var(--shield-bright);
   font-weight: 600;
 }
 
@@ -957,11 +1031,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   border-radius: 12px;
   padding: 11px 12px;
   box-shadow: var(--shadow-card);
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .job-card.selected {
-  border-color: var(--compass);
+  border-color: rgba(15, 212, 120, 0.52);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36), inset 0 0 0 1px rgba(15, 212, 120, 0.12);
 }
 
 .jc-top {
@@ -985,17 +1060,19 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   margin-top: 2px;
   border-radius: 5px;
   border: 1.5px solid var(--ink-faint);
+  background: var(--surface-subtle);
   display: grid;
   place-items: center;
   flex: none;
   font-size: 11px;
+  font-weight: 700;
   color: transparent;
 }
 
 .job-card.selected .jc-check {
-  background: var(--compass);
-  border-color: var(--compass);
-  color: #FFFFFF;
+  background: var(--shield);
+  border-color: var(--shield);
+  color: var(--shield-ink);
 }
 
 .jc-main {
@@ -1017,13 +1094,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .tier-pill.priority {
-  background: var(--verdict-ok-soft);
-  color: var(--verdict-ok);
+  background: var(--shield-soft);
+  color: var(--shield);
 }
 
 .tier-pill.stretch {
-  background: var(--verdict-gap-soft);
-  color: var(--verdict-gap);
+  background: var(--threat-soft);
+  color: var(--threat);
 }
 
 .rule-pill {
@@ -1059,6 +1136,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-size: 20px;
   font-weight: 700;
   line-height: 1;
+  color: var(--shield-bright);
+}
+
+.job-card[data-tier="stretch"] .sr-num {
   color: var(--ink);
 }
 
@@ -1080,11 +1161,11 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .sr-bar i {
   display: block;
   height: 100%;
-  background: var(--compass);
+  background: var(--shield);
 }
 
 .job-card[data-tier="stretch"] .sr-bar i {
-  background: var(--verdict-gap);
+  background: var(--threat);
 }
 
 .jc-summary {
@@ -1116,7 +1197,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   flex: none;
   font-size: 11.5px;
   font-weight: 600;
-  color: var(--compass);
+  color: var(--shield);
 }
 
 .jc-evidence {
@@ -1124,6 +1205,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   padding: 9px 10px;
   border-radius: 8px;
   background: var(--surface-subtle);
+  border: 1px solid var(--line-soft);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -1138,7 +1220,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .dim-k { color: var(--ink-muted); }
-.dim-v { font-family: var(--mono); font-weight: 700; color: var(--ink); }
+.dim-v { font-family: var(--mono); font-weight: 700; color: var(--shield); }
 .dim-n { color: var(--ink-2); }
 
 /* 被压制拦截列表 */
@@ -1158,18 +1240,18 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   justify-content: space-between;
   font-size: 12px;
   color: var(--ink-2);
-  background: #FAFBFD;
+  background: var(--surface-subtle);
 }
 
 .sup-toggle b {
   font-family: var(--mono);
-  color: var(--verdict-cap);
+  color: var(--threat);
 }
 
 .sup-chevron {
   font-style: normal;
   font-size: 11.5px;
-  color: var(--compass);
+  color: var(--shield);
 }
 
 .sup-list {
@@ -1201,8 +1283,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .si-score {
   font-family: var(--mono);
   font-size: 11px;
-  color: var(--verdict-cap);
-  background: var(--verdict-cap-soft);
+  color: var(--threat);
+  background: var(--threat-soft);
   padding: 1px 6px;
   border-radius: 4px;
   white-space: nowrap;
@@ -1210,7 +1292,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .si-rule {
   font-size: 11px;
-  color: var(--verdict-cap);
+  color: var(--threat);
   margin-top: 2px;
 }
 
@@ -1244,8 +1326,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   text-align: left;
   padding: 9px 10px;
   border-radius: 9px;
-  border: 1.5px solid var(--line);
-  background: #FAFBFD;
+  border: 1px solid var(--line);
+  background: var(--surface-subtle);
 }
 
 .track-btn b {
@@ -1262,18 +1344,18 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .track-btn.active {
-  border-color: var(--compass);
-  background: var(--compass-soft);
+  border-color: var(--shield);
+  background: var(--shield-soft);
 }
 
 .track-btn.active b {
-  color: var(--compass-dark);
+  color: var(--shield-bright);
 }
 
 .fact-lock {
   margin-top: 10px;
   background: var(--surface);
-  border: 1px solid #BEE3D5;
+  border: 1px solid var(--shield-line);
   border-radius: 11px;
   padding: 9px 12px;
 }
@@ -1288,13 +1370,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .fl-shield {
   font-size: 12px;
   font-weight: 650;
-  color: var(--verdict-ok);
+  color: var(--shield);
 }
 
 .fl-preview-link {
   font-size: 11.5px;
   font-weight: 600;
-  color: var(--compass);
+  color: var(--ink-2);
 }
 
 .fl-items {
@@ -1311,7 +1393,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .fl-item span {
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   flex: none;
 }
 
@@ -1326,7 +1408,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .diff-before {
   padding: 10px 12px;
-  background: #F8FAFC;
+  background: rgba(9, 13, 22, 0.55);
   border-bottom: 1px solid var(--line-soft);
 }
 
@@ -1340,13 +1422,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .df-tag.old {
-  background: #E2E8F0;
+  background: var(--surface-subtle);
   color: var(--ink-muted);
 }
 
 .df-tag.new {
-  background: var(--compass-soft);
-  color: var(--compass-dark);
+  background: var(--shield-soft);
+  color: var(--shield);
 }
 
 .diff-before ul, .diff-after ul {
@@ -1360,12 +1442,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-size: 11.5px;
   color: var(--ink-faint);
   text-decoration: line-through;
-  text-decoration-color: #CBD5E1;
+  text-decoration-color: var(--ink-faint);
 }
 
 .diff-after {
   padding: 11px 12px;
-  border-left: 3px solid var(--compass);
+  border-left: 3px solid var(--shield);
 }
 
 .df-head {
@@ -1378,7 +1460,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .df-fit {
   font-size: 11px;
-  color: var(--verdict-ok);
+  color: var(--shield);
   font-weight: 500;
 }
 
@@ -1404,13 +1486,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--compass);
+  background: var(--shield);
 }
 
 .pending-fact-card {
   margin-top: 10px;
   background: var(--surface);
-  border: 1px solid #F3D4B0;
+  border: 1px solid var(--line);
   border-radius: 12px;
   padding: 10px 12px;
 }
@@ -1425,8 +1507,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   flex: none;
   font-size: 10px;
   font-weight: 600;
-  background: var(--verdict-gap-soft);
-  color: var(--verdict-gap);
+  background: var(--threat-soft);
+  color: var(--threat);
   padding: 2px 6px;
   border-radius: 4px;
   margin-top: 1px;
@@ -1459,16 +1541,16 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .pf-opt.active {
-  border-color: var(--compass);
-  background: var(--compass-soft);
-  color: var(--compass-dark);
+  border-color: var(--shield);
+  background: var(--shield-soft);
+  color: var(--shield-bright);
   font-weight: 600;
 }
 
 .pf-feedback {
   margin-top: 7px;
   font-size: 11.5px;
-  color: var(--verdict-ok);
+  color: var(--shield);
 }
 
 /* ---------- Step 3: BOSS 首句与缺口四段式预案 ---------- */
@@ -1491,7 +1573,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   background: var(--surface);
   border: 1px solid var(--line);
   font-size: 12px;
-  color: var(--ink-2);
+  color: var(--ink-muted);
 }
 
 .js-pill b {
@@ -1500,9 +1582,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .js-pill.active {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: #FFFFFF;
+  background: var(--shield-soft);
+  border-color: var(--shield);
+  color: var(--shield-bright);
+  font-weight: 600;
 }
 
 .outreach-card {
@@ -1524,14 +1607,16 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .oc-top h3 {
   font-size: 15px;
   margin-top: 4px;
+  color: var(--ink);
 }
 
 .score-pill {
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 700;
-  color: var(--compass-dark);
-  background: var(--compass-soft);
+  color: var(--shield);
+  background: var(--shield-soft);
+  border: 1px solid rgba(15, 212, 120, 0.24);
   padding: 3px 8px;
   border-radius: 6px;
   white-space: nowrap;
@@ -1548,14 +1633,16 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   padding: 6px 8px;
   border-radius: 7px;
   background: var(--surface-subtle);
+  border: 1px solid transparent;
   color: var(--ink-muted);
   font-size: 12px;
   text-align: center;
 }
 
 .tone-btn.active {
-  background: var(--compass-soft);
-  color: var(--compass-dark);
+  background: var(--shield-soft);
+  border-color: var(--shield-line);
+  color: var(--shield-bright);
   font-weight: 600;
 }
 
@@ -1563,8 +1650,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   margin-top: 9px;
   padding: 10px 11px;
   border-radius: 9px;
-  background: #F8FAFD;
-  border: 1px solid var(--line-soft);
+  background: rgba(9, 13, 22, 0.62);
+  border: 1px solid var(--line);
 }
 
 .msg-box p {
@@ -1590,8 +1677,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 46px;
   padding: 10px 12px;
   border-radius: 8px;
-  background: var(--compass-soft);
-  color: var(--compass-dark);
+  background: var(--shield-soft);
+  border: 1px solid var(--shield-line);
+  color: var(--shield-bright);
   font-size: 13px;
   font-weight: 650;
   display: flex;
@@ -1601,8 +1689,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .copy-btn.copied {
-  background: var(--verdict-ok-soft);
-  color: var(--verdict-ok);
+  background: var(--shield);
+  color: var(--shield-ink);
 }
 
 .gap-card, .followup-card {
@@ -1648,8 +1736,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .gs-tag {
   font-size: 10.5px;
   font-weight: 600;
-  color: var(--verdict-gap);
-  background: var(--verdict-gap-soft);
+  color: var(--shield);
+  background: var(--shield-soft);
   padding: 2px 5px;
   border-radius: 4px;
   text-align: center;
@@ -1682,6 +1770,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .ledger-hero h2 {
   font-size: 20px;
   line-height: 1.35;
+  color: var(--ink);
 }
 
 .ledger-grid {
@@ -1714,12 +1803,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .lg-cell.guard {
-  background: var(--verdict-ok-soft);
-  border-color: #B7E2D3;
+  background: var(--shield-soft);
+  border-color: var(--shield-line);
 }
 
 .lg-cell.guard span, .lg-cell.guard b {
-  color: var(--verdict-ok);
+  color: var(--shield);
 }
 
 .action-checklist {
@@ -1737,7 +1826,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   margin-bottom: 6px;
 }
 
-.ac-head b { font-size: 13px; }
+.ac-head b { font-size: 13px; color: var(--ink); }
 .ac-head span { font-size: 11px; color: var(--ink-faint); }
 
 .final-row {
@@ -1779,8 +1868,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .fr-copy {
-  background: var(--compass-soft);
-  color: var(--compass-dark);
+  background: var(--shield-soft);
+  border: 1px solid rgba(15, 212, 120, 0.24);
+  color: var(--shield-bright);
 }
 
 .fr-mark {
@@ -1789,14 +1879,14 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .fr-mark.done {
-  background: var(--verdict-ok-soft);
-  color: var(--verdict-ok);
+  background: var(--shield);
+  color: var(--shield-ink);
 }
 
 .wechat-handoff-card {
   margin-top: 11px;
   background: var(--surface);
-  border: 1.5px solid var(--compass);
+  border: 1px solid var(--shield-line);
   border-radius: 12px;
   padding: 12px;
   box-shadow: var(--shadow-card);
@@ -1806,8 +1896,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   display: inline-block;
   font-size: 10.5px;
   font-weight: 600;
-  color: var(--compass-dark);
-  background: var(--compass-soft);
+  color: var(--shield);
+  background: var(--shield-soft);
   padding: 2px 7px;
   border-radius: 4px;
 }
@@ -1815,6 +1905,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .wh-info h3 {
   font-size: 15px;
   margin-top: 5px;
+  color: var(--ink);
 }
 
 .wh-info p {
@@ -1835,10 +1926,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 46px;
   padding: 11px 12px;
   border-radius: 9px;
-  background: var(--compass);
-  color: #FFFFFF;
+  background-color: var(--shield);
+  color: var(--shield-ink);
   font-size: 13.5px;
-  font-weight: 650;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -1861,7 +1952,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   bottom: 0;
   z-index: 25;
   padding: 8px 15px calc(10px + var(--safe-b));
-  background: linear-gradient(180deg, rgba(244, 246, 249, 0) 0%, var(--paper) 22%);
+  background: linear-gradient(180deg, rgba(9, 13, 22, 0) 0%, var(--paper) 26%);
 }
 
 .primary-cta {
@@ -1869,41 +1960,53 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 50px;
   padding: 8px 16px;
   border-radius: 12px;
-  background: var(--compass);
-  color: #FFFFFF;
+  background-color: #0FD478;
+  background-image: linear-gradient(180deg, #1EE387 0%, #0CC26D 100%);
+  color: var(--shield-ink);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 20px -10px rgba(15, 108, 189, 0.65);
-  transition: transform 0.1s, background 0.15s;
+  box-shadow:
+    0 10px 26px -10px rgba(15, 212, 120, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  transition: transform 0.1s, filter 0.15s;
 }
 
 .primary-cta:active {
   transform: scale(0.99);
-  background: var(--compass-dark);
+  filter: brightness(0.94);
 }
 
 .primary-cta.scanning-cta {
-  background: #1E293B;
-  box-shadow: 0 8px 20px -10px rgba(30, 41, 59, 0.55);
+  background-color: #162032;
+  background-image: none;
+  border: 1px solid var(--shield-line);
+  color: var(--ink);
+  box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.65);
 }
 
 .primary-cta.done-cta {
-  background: var(--verdict-ok);
-  box-shadow: 0 8px 20px -10px rgba(14, 138, 98, 0.55);
+  background-color: #0FD478;
+  background-image: linear-gradient(180deg, #2BF094 0%, #0FD478 100%);
+  color: var(--shield-ink);
 }
 
 .pc-main {
   font-size: 14.5px;
-  font-weight: 650;
+  font-weight: 700;
   line-height: 1.25;
 }
 
 .pc-sub {
   font-size: 10.5px;
-  color: rgba(255, 255, 255, 0.84);
+  color: rgba(4, 22, 12, 0.78);
+  font-weight: 500;
   margin-top: 2px;
+}
+
+.primary-cta.scanning-cta .pc-sub {
+  color: var(--ink-muted);
 }
 
 /* ---------- 底部抽屉通用样式（粘贴 JD & 极简公众号二维码） ---------- */
@@ -1919,7 +2022,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .sheet-mask {
   position: absolute;
   inset: 0;
-  background: rgba(18, 25, 38, 0.46);
+  background: rgba(3, 6, 12, 0.72);
+  backdrop-filter: blur(3px);
 }
 
 .sheet-panel {
@@ -1931,7 +2035,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  background: #FFFFFF;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
   border-radius: 18px 18px 0 0;
   padding: 8px 18px calc(16px + var(--safe-b));
 }
@@ -1951,7 +2056,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   margin-bottom: 6px;
 }
 
-.sheet-head b { font-size: 15px; }
+.sheet-head b { font-size: 15px; color: var(--ink); }
 .sheet-close { min-height: 40px; min-width: 44px; font-size: 13px; color: var(--ink-muted); padding: 6px 8px; }
 .sheet-desc { font-size: 12px; color: var(--ink-muted); margin-bottom: 8px; }
 
@@ -1966,15 +2071,17 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 40px;
   padding: 7px 8px;
   border-radius: 7px;
-  background: var(--compass-soft);
-  color: var(--compass-dark);
+  background: var(--shield-soft);
+  border: 1px solid rgba(15, 212, 120, 0.24);
+  color: var(--shield-bright);
   font-size: 11.5px;
   font-weight: 600;
 }
 
 .sp-btn.warn {
-  background: var(--verdict-cap-soft);
-  color: var(--verdict-cap);
+  background: var(--threat-soft);
+  border: 1px solid var(--threat-line);
+  color: var(--threat);
 }
 
 .paste-area {
@@ -1985,7 +2092,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-size: 16px;
   line-height: 1.45;
   resize: none;
-  background: #FAFBFD;
+  background: var(--paper);
+  color: var(--ink);
 }
 
 .sheet-submit {
@@ -1994,14 +2102,14 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 46px;
   padding: 11px;
   border-radius: 10px;
-  background: var(--compass);
-  color: #FFFFFF;
+  background-color: var(--shield);
+  color: var(--shield-ink);
   font-size: 14px;
-  font-weight: 650;
+  font-weight: 700;
   text-align: center;
 }
 
-/* 二维码弹层：严格两段文字 + 高对比纯白衬框（确保真机与自动化扫码 100% 可识别） */
+/* 二维码弹层：严格两段文字 + 高对比纯白静区衬框（保证微信扫码与 jsqr 100% 识别） */
 .qr-panel {
   text-align: center;
 }
@@ -2025,8 +2133,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   margin: 14px auto;
   padding: 10px;
   background: #FFFFFF;
-  border: 1px solid var(--line);
+  border: 2px solid rgba(15, 212, 120, 0.45);
   border-radius: 12px;
+  box-shadow: 0 0 28px rgba(15, 212, 120, 0.16);
 }
 
 .qr-box img {
@@ -2047,10 +2156,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 46px;
   padding: 11px 14px;
   border-radius: 10px;
-  background: #07C160;
-  color: #FFFFFF;
+  background-color: var(--shield);
+  color: var(--shield-ink);
   font-size: 14px;
-  font-weight: 650;
+  font-weight: 700;
 }
 
 .qr-skip-btn {
@@ -2061,7 +2170,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   color: var(--ink-muted);
 }
 
-/* ---------- 微信服务号全屏会话视图 ---------- */
+/* ---------- 微信服务号全屏会话视图（深色模式无缝衔接） ---------- */
 .pub-view {
   position: fixed;
   top: 0;
@@ -2069,12 +2178,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   right: 0;
   height: var(--vvh, 100dvh);
   z-index: 140;
-  background: #EDEDED;
+  background: #0D1119;
   display: flex;
   flex-direction: column;
   max-width: 480px;
   margin: 0 auto;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.65);
 }
 
 .pub-header {
@@ -2082,8 +2191,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   align-items: center;
   justify-content: space-between;
   padding: calc(var(--safe-t) + 10px) 14px 10px;
-  background: #F7F7F7;
-  border-bottom: 1px solid #DCDCDC;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
 }
 
 .pub-back {
@@ -2099,6 +2208,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .pub-title b {
   display: block;
   font-size: 15px;
+  color: var(--ink);
 }
 
 .pub-title span {
@@ -2109,7 +2219,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .pub-doc-btn {
   font-size: 12px;
-  color: var(--compass);
+  color: var(--shield);
   font-weight: 600;
 }
 
@@ -2126,8 +2236,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .pub-sys {
   align-self: center;
   font-size: 11px;
-  color: #7F7F7F;
-  background: rgba(0, 0, 0, 0.05);
+  color: var(--ink-muted);
+  background: rgba(255, 255, 255, 0.05);
   padding: 3px 9px;
   border-radius: 5px;
   text-align: center;
@@ -2146,9 +2256,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .pub-avatar {
   width: 34px;
   height: 34px;
-  border-radius: 5px;
-  background: var(--ink);
-  color: #FFFFFF;
+  border-radius: 6px;
+  background: var(--surface-subtle);
+  border: 1px solid var(--shield-line);
+  color: var(--shield);
   display: grid;
   place-items: center;
   font-size: 13px;
@@ -2157,12 +2268,14 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .pub-row.me .pub-avatar {
-  background: var(--compass);
+  background: var(--shield);
+  color: var(--shield-ink);
 }
 
 .pub-bubble {
   max-width: 80%;
-  background: #FFFFFF;
+  background: var(--surface);
+  border: 1px solid var(--line);
   border-radius: 8px;
   padding: 10px 12px;
   font-size: 13px;
@@ -2171,15 +2284,17 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .pub-row.me .pub-bubble {
-  background: #95EC69;
+  background: rgba(15, 212, 120, 0.18);
+  border-color: rgba(15, 212, 120, 0.36);
+  color: var(--ink);
 }
 
 .pub-file-card {
-  border: 1px solid var(--line-soft);
+  border: 1px solid var(--line);
   border-radius: 7px;
   padding: 8px 10px;
   margin-top: 6px;
-  background: #FAFBFD;
+  background: var(--surface-subtle);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2189,20 +2304,21 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .pub-file-card b {
   font-size: 12px;
+  color: var(--ink);
   display: block;
 }
 
 .pub-file-card span {
   font-size: 10.5px;
-  color: var(--verdict-ok);
+  color: var(--shield);
 }
 
 .pub-file-tag {
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 700;
-  color: #FFFFFF;
-  background: #D94848;
+  color: var(--shield-ink);
+  background: var(--shield);
   padding: 4px 6px;
   border-radius: 4px;
 }
@@ -2217,21 +2333,23 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .pub-digest-btn {
   padding: 7px 10px;
   border-radius: 6px;
-  background: var(--compass-soft);
-  color: var(--compass-dark);
+  background: var(--surface-subtle);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
   font-size: 12px;
   font-weight: 600;
   text-align: left;
 }
 
 .pub-digest-btn.picked {
-  background: var(--verdict-ok-soft);
-  color: var(--verdict-ok);
+  background: var(--shield-soft);
+  border-color: var(--shield);
+  color: var(--shield-bright);
 }
 
 .pub-composer {
-  background: #F7F7F7;
-  border-top: 1px solid #DCDCDC;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
   padding: 8px 10px calc(10px + var(--safe-b));
 }
 
@@ -2247,8 +2365,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-size: 11px;
   padding: 4px 8px;
   border-radius: 99px;
-  background: #FFFFFF;
-  border: 1px solid #D5D5D5;
+  background: var(--surface-subtle);
+  border: 1px solid var(--line);
   color: var(--ink-2);
 }
 
@@ -2262,11 +2380,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   flex: 1;
   min-width: 0;
   min-height: 44px;
-  background: #FFFFFF;
-  border: 1px solid #D5D5D5;
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 6px;
   padding: 8px 10px;
   font-size: 16px;
+  color: var(--ink);
 }
 
 .pub-send {
@@ -2274,10 +2393,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 44px;
   padding: 0 14px;
   border-radius: 6px;
-  background: #07C160;
-  color: #FFFFFF;
+  background-color: var(--shield);
+  color: var(--shield-ink);
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* ---------- 网页端简历全文与页内模拟追问模态框 ---------- */
@@ -2287,7 +2406,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   width: 100%;
   max-width: 430px;
   max-height: 88dvh;
-  background: #FFFFFF;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
   border-radius: 18px 18px 0 0;
   display: flex;
   flex-direction: column;
@@ -2301,8 +2421,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   justify-content: space-between;
 }
 
-.modal-head b { display: block; font-size: 14.5px; }
-.modal-head span { font-size: 11px; color: var(--verdict-ok); }
+.modal-head b { display: block; font-size: 14.5px; color: var(--ink); }
+.modal-head span { font-size: 11px; color: var(--shield); }
 
 .modal-body {
   flex: 1;
@@ -2311,7 +2431,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .resume-paper {
-  background: #FAFBFD;
+  background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 12px;
@@ -2341,6 +2461,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .web-mock-box {
   margin-top: 12px;
   background: var(--surface-subtle);
+  border: 1px solid var(--line);
   border-radius: 10px;
   padding: 10px 12px;
 }
@@ -2365,11 +2486,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   flex: 1;
   min-width: 0;
   min-height: 44px;
-  background: #FFFFFF;
+  background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 6px;
   padding: 7px 9px;
   font-size: 16px;
+  color: var(--ink);
 }
 
 .wm-row button {
@@ -2377,16 +2499,17 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 44px;
   padding: 0 12px;
   border-radius: 6px;
-  background: var(--compass);
-  color: #FFFFFF;
+  background-color: var(--shield);
+  color: var(--shield-ink);
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .wm-review {
   margin-top: 8px;
   padding: 8px 10px;
-  background: #FFFFFF;
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 7px;
   font-size: 11.5px;
   line-height: 1.55;
@@ -2403,10 +2526,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 46px;
   padding: 10px;
   border-radius: 9px;
-  background: var(--ink);
-  color: #FFFFFF;
+  background-color: var(--shield);
+  color: var(--shield-ink);
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -2428,11 +2551,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   .stage { padding-top: 7px; }
   .radar-hero { margin: 0 0 6px; }
   .cleaner-radar { width: 92px; height: 92px; }
-  .radar-beam { inset: 8px; }
-  .radar-center { width: 62px; height: 62px; padding: 0 3px; }
-  .radar-num { font-size: 20px; margin: 1px 0 0; }
-  .radar-kicker { font-size: 8px; }
-  .radar-unit { font-size: 8.5px; }
+  .radar-crosshair { inset: 8px; }
+  .radar-beam { inset: 6px; }
+  .radar-center { width: 58px; height: 58px; padding: 0 2px; }
+  .radar-num { font-size: 19px; margin: 1px 0 0; }
+  .radar-kicker { font-size: 7px; letter-spacing: 0.02em; }
+  .radar-unit { font-size: 8px; }
   .eyebrow { margin-bottom: 4px; padding: 2px 7px; font-size: 10.5px; }
   .hero-h1 { font-size: 18.5px; line-height: 1.26; }
   .hero-lead { margin-top: 3px; font-size: 11.5px; line-height: 1.38; }
@@ -2455,11 +2579,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   bottom: calc(82px + var(--safe-b));
   transform: translateX(-50%) translateY(8px);
   z-index: 200;
-  background: rgba(18, 25, 38, 0.92);
-  color: #FFFFFF;
+  background: rgba(16, 23, 36, 0.96);
+  border: 1px solid var(--shield-line);
+  color: var(--ink);
   font-size: 12.5px;
   padding: 8px 14px;
   border-radius: 99px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.18s, transform 0.18s;
