@@ -1,4 +1,4 @@
-/* ===== 岗位罗盘 H5 Demo · 360 Cyber-Sonar 深空声呐极简色彩系统 ===== */
+/* ===== 岗位罗盘 H5 Demo · Precision Blue 深空声呐效率工具色彩系统 ===== */
 :root {
   --paper: #090D16;
   --surface: #101724;
@@ -11,12 +11,13 @@
   --line: #202E44;
   --line-soft: #182336;
 
-  /* 唯一主科技引擎色：360 电光护盾绿 */
-  --shield: #0FD478;
-  --shield-bright: #34F59A;
-  --shield-ink: #04160C;
-  --shield-soft: rgba(15, 212, 120, 0.12);
-  --shield-line: rgba(15, 212, 120, 0.30);
+  /* 唯一主科技引擎色：工具效率钴蓝（Linear / Primer Dark 级清晰对比） */
+  --shield: #3B82F6;
+  --shield-solid: #2563EB;
+  --shield-bright: #60A5FA;
+  --shield-ink: #FFFFFF;
+  --shield-soft: rgba(59, 130, 246, 0.14);
+  --shield-line: rgba(59, 130, 246, 0.34);
 
   /* 唯一克制风险提示色：拦截琥珀（仅用于压制坑岗与硬缺口点位） */
   --threat: #F59E0B;
@@ -104,14 +105,14 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   flex-direction: column;
   background-color: var(--paper);
   background-image:
-    radial-gradient(circle at 50% 9%, rgba(15, 212, 120, 0.09) 0%, rgba(9, 13, 22, 0) 52%),
-    linear-gradient(180deg, rgba(15, 212, 120, 0.02) 0%, rgba(9, 13, 22, 0) 24%);
+    radial-gradient(circle at 50% 9%, rgba(59, 130, 246, 0.09) 0%, rgba(9, 13, 22, 0) 52%),
+    linear-gradient(180deg, rgba(59, 130, 246, 0.02) 0%, rgba(9, 13, 22, 0) 24%);
 }
 
 @media (min-width: 860px) {
   body {
     background:
-      radial-gradient(circle at 72% 36%, rgba(15, 212, 120, 0.08), transparent 44%),
+      radial-gradient(circle at 72% 36%, rgba(59, 130, 246, 0.08), transparent 44%),
       #05080F;
   }
   .shell {
@@ -179,7 +180,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     border: 5px solid #1C2739;
     box-shadow:
       0 28px 70px rgba(0, 0, 0, 0.72),
-      0 0 0 1px rgba(15, 212, 120, 0.16);
+      0 0 0 1px rgba(59, 130, 246, 0.16);
     position: relative;
   }
 }
@@ -210,7 +211,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   width: 26px;
   height: 26px;
   border-radius: 7px;
-  background: rgba(15, 212, 120, 0.12);
+  background: rgba(59, 130, 246, 0.12);
   border: 1px solid var(--shield-line);
   color: var(--shield);
   display: grid;
@@ -218,7 +219,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.02em;
-  box-shadow: inset 0 0 8px rgba(15, 212, 120, 0.14);
+  box-shadow: inset 0 0 8px rgba(59, 130, 246, 0.14);
 }
 
 .brand-txt b {
@@ -258,7 +259,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-style: normal;
   font-family: var(--mono);
   font-size: 10px;
-  background: var(--shield);
+  background: var(--shield-solid);
   color: var(--shield-ink);
   font-weight: 700;
   border-radius: 99px;
@@ -272,8 +273,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   gap: 5px;
   padding: 3px 9px;
   border-radius: 99px;
-  background: rgba(15, 212, 120, 0.09);
-  border: 1px solid rgba(15, 212, 120, 0.24);
+  background: rgba(59, 130, 246, 0.09);
+  border: 1px solid rgba(59, 130, 246, 0.24);
   color: var(--shield);
   font-size: 11px;
 }
@@ -343,7 +344,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .sr-item.active i {
-  background: var(--shield);
+  background: var(--shield-solid);
   color: var(--shield-ink);
   font-weight: 700;
 }
@@ -372,8 +373,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-size: 11px;
   font-weight: 600;
   color: var(--shield);
-  background: rgba(15, 212, 120, 0.10);
-  border: 1px solid rgba(15, 212, 120, 0.24);
+  background: rgba(59, 130, 246, 0.10);
+  border: 1px solid rgba(59, 130, 246, 0.24);
   padding: 3px 9px;
   border-radius: 6px;
   margin-bottom: 8px;
@@ -382,7 +383,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .eyebrow.ok {
   color: var(--shield-bright);
-  background: rgba(15, 212, 120, 0.14);
+  background: rgba(59, 130, 246, 0.14);
 }
 
 /* ---------- Step 0: 360 杀毒式深空声呐激光雷达盘 ---------- */
@@ -394,7 +395,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .cleaner-radar {
   --radar-accent: var(--shield);
-  --radar-rgb: 15, 212, 120;
+  --radar-rgb: 59, 130, 246;
   position: relative;
   width: 148px;
   height: 148px;
@@ -590,12 +591,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 /* 清筛完成态：满环电光护盾绿锁定 */
 .cleaner-radar.scan-done {
   --radar-accent: var(--shield-bright);
-  --radar-rgb: 15, 212, 120;
+  --radar-rgb: 59, 130, 246;
   box-shadow:
-    0 0 0 1.5px rgba(15, 212, 120, 0.52),
+    0 0 0 1.5px rgba(59, 130, 246, 0.52),
     0 12px 32px -6px rgba(0, 0, 0, 0.8),
-    0 0 32px -4px rgba(15, 212, 120, 0.42),
-    inset 0 0 22px rgba(15, 212, 120, 0.18);
+    0 0 32px -4px rgba(59, 130, 246, 0.42),
+    inset 0 0 22px rgba(59, 130, 246, 0.18);
 }
 
 .cleaner-radar.scan-done .radar-beam {
@@ -792,7 +793,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .sm-cell.keep {
-  border-color: rgba(15, 212, 120, 0.24);
+  border-color: rgba(59, 130, 246, 0.24);
 }
 
 .sm-cell.keep b {
@@ -933,7 +934,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-size: 10.5px;
   color: var(--shield);
   background: var(--shield-soft);
-  border: 1px solid rgba(15, 212, 120, 0.24);
+  border: 1px solid rgba(59, 130, 246, 0.24);
   padding: 2px 7px;
   border-radius: 4px;
   white-space: nowrap;
@@ -955,7 +956,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .m-ok { background: var(--shield); }
-.m-stretch { background: rgba(15, 212, 120, 0.42); }
+.m-stretch { background: rgba(59, 130, 246, 0.42); }
 .m-cut { background: #26354D; }
 
 .sb-sub {
@@ -984,7 +985,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-weight: 600;
   color: var(--shield);
   background: var(--shield-soft);
-  border: 1px solid rgba(15, 212, 120, 0.22);
+  border: 1px solid rgba(59, 130, 246, 0.22);
   padding: 2px 6px;
   border-radius: 4px;
   white-space: nowrap;
@@ -1035,8 +1036,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .job-card.selected {
-  border-color: rgba(15, 212, 120, 0.52);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36), inset 0 0 0 1px rgba(15, 212, 120, 0.12);
+  border-color: rgba(59, 130, 246, 0.52);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36), inset 0 0 0 1px rgba(59, 130, 246, 0.12);
 }
 
 .jc-top {
@@ -1070,7 +1071,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .job-card.selected .jc-check {
-  background: var(--shield);
+  background: var(--shield-solid);
   border-color: var(--shield);
   color: var(--shield-ink);
 }
@@ -1616,7 +1617,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-weight: 700;
   color: var(--shield);
   background: var(--shield-soft);
-  border: 1px solid rgba(15, 212, 120, 0.24);
+  border: 1px solid rgba(59, 130, 246, 0.24);
   padding: 3px 8px;
   border-radius: 6px;
   white-space: nowrap;
@@ -1689,7 +1690,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .copy-btn.copied {
-  background: var(--shield);
+  background: var(--shield-solid);
   color: var(--shield-ink);
 }
 
@@ -1869,7 +1870,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .fr-copy {
   background: var(--shield-soft);
-  border: 1px solid rgba(15, 212, 120, 0.24);
+  border: 1px solid rgba(59, 130, 246, 0.24);
   color: var(--shield-bright);
 }
 
@@ -1879,7 +1880,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .fr-mark.done {
-  background: var(--shield);
+  background: var(--shield-solid);
   color: var(--shield-ink);
 }
 
@@ -1926,7 +1927,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 46px;
   padding: 11px 12px;
   border-radius: 9px;
-  background-color: var(--shield);
+  background-color: var(--shield-solid);
   color: var(--shield-ink);
   font-size: 13.5px;
   font-weight: 700;
@@ -1960,16 +1961,16 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 50px;
   padding: 8px 16px;
   border-radius: 12px;
-  background-color: #0FD478;
-  background-image: linear-gradient(180deg, #1EE387 0%, #0CC26D 100%);
+  background-color: #2563EB;
+  background-image: linear-gradient(180deg, #3B82F6 0%, #1D4ED8 100%);
   color: var(--shield-ink);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   box-shadow:
-    0 10px 26px -10px rgba(15, 212, 120, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+    0 10px 26px -10px rgba(37, 99, 235, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition: transform 0.1s, filter 0.15s;
 }
 
@@ -1987,8 +1988,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .primary-cta.done-cta {
-  background-color: #0FD478;
-  background-image: linear-gradient(180deg, #2BF094 0%, #0FD478 100%);
+  background-color: #2563EB;
+  background-image: linear-gradient(180deg, #478DF8 0%, #2563EB 100%);
   color: var(--shield-ink);
 }
 
@@ -2000,7 +2001,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .pc-sub {
   font-size: 10.5px;
-  color: rgba(4, 22, 12, 0.78);
+  color: rgba(255, 255, 255, 0.82);
   font-weight: 500;
   margin-top: 2px;
 }
@@ -2072,7 +2073,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   padding: 7px 8px;
   border-radius: 7px;
   background: var(--shield-soft);
-  border: 1px solid rgba(15, 212, 120, 0.24);
+  border: 1px solid rgba(59, 130, 246, 0.24);
   color: var(--shield-bright);
   font-size: 11.5px;
   font-weight: 600;
@@ -2102,7 +2103,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 46px;
   padding: 11px;
   border-radius: 10px;
-  background-color: var(--shield);
+  background-color: var(--shield-solid);
   color: var(--shield-ink);
   font-size: 14px;
   font-weight: 700;
@@ -2133,9 +2134,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   margin: 14px auto;
   padding: 10px;
   background: #FFFFFF;
-  border: 2px solid rgba(15, 212, 120, 0.45);
+  border: 2px solid rgba(59, 130, 246, 0.45);
   border-radius: 12px;
-  box-shadow: 0 0 28px rgba(15, 212, 120, 0.16);
+  box-shadow: 0 0 28px rgba(59, 130, 246, 0.16);
 }
 
 .qr-box img {
@@ -2156,7 +2157,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 46px;
   padding: 11px 14px;
   border-radius: 10px;
-  background-color: var(--shield);
+  background-color: var(--shield-solid);
   color: var(--shield-ink);
   font-size: 14px;
   font-weight: 700;
@@ -2268,7 +2269,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .pub-row.me .pub-avatar {
-  background: var(--shield);
+  background: var(--shield-solid);
   color: var(--shield-ink);
 }
 
@@ -2284,8 +2285,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 }
 
 .pub-row.me .pub-bubble {
-  background: rgba(15, 212, 120, 0.18);
-  border-color: rgba(15, 212, 120, 0.36);
+  background: rgba(59, 130, 246, 0.18);
+  border-color: rgba(59, 130, 246, 0.36);
   color: var(--ink);
 }
 
@@ -2318,7 +2319,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   font-size: 11px;
   font-weight: 700;
   color: var(--shield-ink);
-  background: var(--shield);
+  background: var(--shield-solid);
   padding: 4px 6px;
   border-radius: 4px;
 }
@@ -2393,7 +2394,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 44px;
   padding: 0 14px;
   border-radius: 6px;
-  background-color: var(--shield);
+  background-color: var(--shield-solid);
   color: var(--shield-ink);
   font-size: 13.5px;
   font-weight: 700;
@@ -2499,7 +2500,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 44px;
   padding: 0 12px;
   border-radius: 6px;
-  background-color: var(--shield);
+  background-color: var(--shield-solid);
   color: var(--shield-ink);
   font-size: 12.5px;
   font-weight: 700;
@@ -2526,7 +2527,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   min-height: 46px;
   padding: 10px;
   border-radius: 9px;
-  background-color: var(--shield);
+  background-color: var(--shield-solid);
   color: var(--shield-ink);
   font-size: 13.5px;
   font-weight: 700;
