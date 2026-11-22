@@ -7,9 +7,13 @@
     trap: '岗位：互联网产品经理 15-25k（底薪4.5k+高额提成）。核心职责：1. 每日外呼电销80通挖掘企业客户需求；2. 陌拜拓客签单按单提成。不限经验。'
   };
 
+  const RADAR_CIRC = 339.29;
+
   const state = {
     screen: 'entry',          // 'entry' | 'step1' | 'step2' | 'step3' | 'step4'
     maxUnlockedStep: 0,       // 0..4
+    isScanning: false,
+    scanTimers: [],
     scope: 'top3',            // 'top3' | 'shanghai' | 'all'
     actionableJobs: window.ACTIONABLE_JOBS.map(j => ({ ...j })),
     suppressedJobs: window.SUPPRESSED_JOBS.map(j => ({ ...j })),
@@ -90,8 +94,177 @@
     return [...base].sort((a, b) => b.score - a.score);
   }
 
+  /* ---------- 手机清理大师式雷达扫描与垃圾坑岗清理动画 ---------- */
+  function clearScanTimers() {
+    while (state.scanTimers.length) {
+      clearTimeout(state.scanTimers.pop());
+    }
+    state.isScanning = false;
+  }
+
+  function resetRadarToIdle() {
+    clearScanTimers();
+    const total = getTotalJobsCount();
+    const radar = $('#cleanerRadar');
+    const arc = $('#radarArc');
+    if (radar) radar.classList.remove('is-scanning', 'hit-trap', 'scan-done');
+    if (arc) arc.style.strokeDashoffset = String((RADAR_CIRC * 0.86).toFixed(2));
+    if ($('#radarKicker')) $('#radarKicker').textContent = '五条规则待命';
+    if ($('#radarMainNum')) $('#radarMainNum').textContent = String(total);
+    if ($('#radarUnit')) $('#radarUnit').textContent = '个在招岗待清筛';
+    if ($('#entryIdlePanel')) $('#entryIdlePanel').hidden = false;
+    if ($('#scanLivePanel')) $('#scanLivePanel').hidden = true;
+    const cta = $('#primaryBtn');
+    if (cta) cta.classList.remove('scanning-cta', 'done-cta');
+  }
+
+  function buildInterleavedScanQueue() {
+    const traps = state.suppressedJobs.map(s => ({
+      kind: 'drop',
+      name: s.company,
+      tag: s.capRule.replace(/^压制规则\s*\d+\s*·\s*/, ''),
+      score: s.score
+    }));
+    const keeps = state.actionableJobs.map(j => ({
+      kind: 'keep',
+      name: `${j.company} · ${j.title}`,
+      tag: j.tierLabel,
+      score: j.score
+    }));
+    const queue = [];
+    const maxLen = Math.max(traps.length, keeps.length);
+    for (let i = 0; i < maxLen; i++) {
+      if (traps[i]) queue.push(traps[i]);
+      if (keeps[i]) queue.push(keeps[i]);
+    }
+    return queue;
+  }
+
+  function finishCleanerScan() {
+    clearScanTimers();
+    const cta = $('#primaryBtn');
+    if (cta) cta.classList.remove('scanning-cta', 'done-cta');
+    goScreen('step1');
+  }
+
+  function startCleanerScan() {
+    if (state.isScanning) {
+      finishCleanerScan();
+      return;
+    }
+    clearScanTimers();
+    state.isScanning = true;
+
+    const queue = buildInterleavedScanQueue();
+    const total = queue.length;
+    const radar = $('#cleanerRadar');
+    const arc = $('#radarArc');
+    const feed = $('#scanFeed');
+    const cta = $('#primaryBtn');
+
+    $('#entryIdlePanel').hidden = true;
+    $('#scanLivePanel').hidden = false;
+    feed.innerHTML = '';
+
+    radar.classList.remove('scan-done', 'hit-trap');
+    radar.classList.add('is-scanning');
+    arc.style.strokeDashoffset = String(RADAR_CIRC);
+
+    $('#radarKicker').textContent = '正在扫描在招池';
+    $('#radarMainNum').textContent = '0%';
+    $('#radarUnit').textContent = '识别挂羊头与硬伤';
+
+    $('#scanDoneNum').textContent = `0/${total}`;
+    $('#scanTrapNum').textContent = '0';
+    $('#scanKeepNum').textContent = '0';
+
+    cta.classList.remove('done-cta');
+    cta.classList.add('scanning-cta');
+    $('#primaryMain').textContent = `正在深度清筛在招岗（0/${total}）…`;
+    $('#primarySub').textContent = '再次轻点此按钮可立即跳过动画直达结果';
+
+    let trapCount = 0;
+    let keepCount = 0;
+    const stepMs = 155;
+
+    queue.forEach((item, idx) => {
+      const t = setTimeout(() => {
+        if (!state.isScanning) return;
+        const done = idx + 1;
+        const pct = Math.round((done / total) * 100);
+        const offset = Math.max(0, RADAR_CIRC * (1 - done / total));
+        arc.style.strokeDashoffset = offset.toFixed(2);
+        $('#radarMainNum').textContent = `${pct}%`;
+
+        const row = document.createElement('div');
+        if (item.kind === 'drop') {
+          trapCount++;
+          radar.classList.add('hit-trap');
+          $('#radarKicker').textContent = '揪出风险坑岗';
+          $('#radarUnit').textContent = `已拦下 ${trapCount} 个坑岗`;
+          row.className = 'sf-row sf-drop';
+          row.innerHTML = `
+            <div class="sf-left">
+              <span class="sf-badge">已拦下</span>
+              <span class="sf-name">${escapeHtml(item.name)}</span>
+            </div>
+            <span class="sf-note">${escapeHtml(item.tag)} · ${item.score}分</span>
+          `;
+        } else {
+          keepCount++;
+          radar.classList.remove('hit-trap');
+          $('#radarKicker').textContent = '纸面核验通过';
+          $('#radarUnit').textContent = `净留 ${keepCount} 个可争取岗`;
+          row.className = 'sf-row sf-keep';
+          row.innerHTML = `
+            <div class="sf-left">
+              <span class="sf-badge">可争取</span>
+              <span class="sf-name">${escapeHtml(item.name)}</span>
+            </div>
+            <span class="sf-note">${item.score}/95</span>
+          `;
+        }
+
+        feed.appendChild(row);
+        feed.scrollTop = feed.scrollHeight;
+
+        $('#scanDoneNum').textContent = `${done}/${total}`;
+        $('#scanTrapNum').textContent = String(trapCount);
+        $('#scanKeepNum').textContent = String(keepCount);
+        $('#primaryMain').textContent = `正在深度清筛在招岗（${done}/${total}）…`;
+        enforceZeroSendGuard();
+      }, (idx + 1) * stepMs);
+      state.scanTimers.push(t);
+    });
+
+    // Emerald clean completion pulse before auto-entering Step 1
+    const settleTimer = setTimeout(() => {
+      if (!state.isScanning) return;
+      radar.classList.remove('is-scanning', 'hit-trap');
+      radar.classList.add('scan-done');
+      arc.style.strokeDashoffset = '0';
+      $('#radarKicker').textContent = '清筛完成 · 已净化';
+      $('#radarMainNum').textContent = String(state.actionableJobs.length);
+      $('#radarUnit').textContent = '个好岗值得开口';
+      cta.classList.remove('scanning-cta');
+      cta.classList.add('done-cta');
+      $('#primaryMain').textContent = `已拦下 ${state.suppressedJobs.length} 个坑岗 · 正在展开清单`;
+      $('#primarySub').textContent = '95 分封顶排定先后 · 发送键归你';
+    }, total * stepMs + 80);
+    state.scanTimers.push(settleTimer);
+
+    const navTimer = setTimeout(() => {
+      if (!state.isScanning) return;
+      finishCleanerScan();
+    }, total * stepMs + 430);
+    state.scanTimers.push(navTimer);
+  }
+
   /* ---------- 导航与底部主按钮联动 ---------- */
   function goScreen(target) {
+    if (target !== 'entry' || state.isScanning) {
+      clearScanTimers();
+    }
     state.screen = target;
     const stepIdx = target === 'entry' ? 0 : Number(target.replace('step', ''));
     if (stepIdx > state.maxUnlockedStep) {
@@ -114,7 +287,10 @@
       btn.classList.toggle('active', n === stepIdx);
     });
 
-    if (target === 'entry') renderEntryCounts();
+    if (target === 'entry') {
+      resetRadarToIdle();
+      renderEntryCounts();
+    }
     if (target === 'step1') renderStep1();
     if (target === 'step2') renderStep2();
     if (target === 'step3') renderStep3();
@@ -128,14 +304,17 @@
   }
 
   function updatePrimaryCta() {
+    if (state.isScanning) return;
     const main = $('#primaryMain');
     const sub = $('#primarySub');
     const total = getTotalJobsCount();
     const selCount = getSelectedJobs().length;
+    const cta = $('#primaryBtn');
+    if (cta) cta.classList.remove('scanning-cta', 'done-cta');
 
     if (state.screen === 'entry') {
-      main.textContent = `开始筛岗判断（${total} 个岗）`;
-      sub.textContent = '免费分析 · 95 分封顶只排先后 · 不碰你求职账号';
+      main.textContent = `一键扫描清筛（${total} 个在招岗）`;
+      sub.textContent = '揪出电销挂羊头与硬伤岗 · 95 分封顶排先后';
     } else if (state.screen === 'step1') {
       main.textContent = `锁定这 ${selCount} 个目标岗 → 改方向版简历`;
       sub.textContent = `已替你拦下 ${state.suppressedJobs.length} 个挂羊头与硬伤岗`;
@@ -156,6 +335,9 @@
   function renderEntryCounts() {
     const total = getTotalJobsCount();
     $('#poolSummaryText').textContent = `刚从 BOSS 收藏的 ${total} 个在招岗`;
+    if (!state.isScanning && $('#radarMainNum')) {
+      $('#radarMainNum').textContent = String(total);
+    }
   }
 
   /* ---------- Step 1: 筛岗判断渲染 ---------- */
@@ -484,9 +666,9 @@
       goScreen(`step${btn.dataset.stepNav}`);
     });
 
-    // 底部主动作按钮
+    // 底部主动作按钮 + 中央雷达表盘直点启动 + 重新扫描按钮
     $('#primaryBtn').addEventListener('click', () => {
-      if (state.screen === 'entry') goScreen('step1');
+      if (state.screen === 'entry') startCleanerScan();
       else if (state.screen === 'step1') goScreen('step2');
       else if (state.screen === 'step2') goScreen('step3');
       else if (state.screen === 'step3') goScreen('step4');
@@ -495,6 +677,18 @@
         else $('#qrSheet').hidden = false;
       }
     });
+
+    $('#cleanerRadar').addEventListener('click', () => {
+      if (state.screen === 'entry') startCleanerScan();
+    });
+
+    const rescanBtn = $('#rescanBtn');
+    if (rescanBtn) {
+      rescanBtn.addEventListener('click', () => {
+        goScreen('entry');
+        startCleanerScan();
+      });
+    }
 
     // 粘贴 BOSS JD 抽屉
     $('#openPasteBtn').addEventListener('click', () => {
@@ -765,6 +959,7 @@
   }
 
   bindEvents();
+  resetRadarToIdle();
   renderEntryCounts();
   updatePrimaryCta();
   enforceZeroSendGuard();
